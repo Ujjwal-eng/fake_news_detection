@@ -585,3 +585,46 @@ if __name__ == "__main__":
     # Test text statistics
     stats = analyze_text_statistics(sample_texts)
     print(f"\nText statistics: {stats}")
+
+
+# TextPreprocessor class for Flask app compatibility
+class TextPreprocessor:
+    """
+    Simple text preprocessor for the Flask web application
+    """
+    
+    def __init__(self):
+        self.stemmer = PorterStemmer()
+        try:
+            self.stop_words = set(stopwords.words('english'))
+        except:
+            download_nltk_data()
+            self.stop_words = set(stopwords.words('english'))
+    
+    def preprocess(self, text: str) -> str:
+        """
+        Preprocess text for prediction
+        
+        Args:
+            text (str): Input text
+            
+        Returns:
+            str: Preprocessed text
+        """
+        # Convert to lowercase
+        text = text.lower()
+        
+        # Remove URLs
+        text = re.sub(r'http\S+|www\S+|https\S+', '', text, flags=re.MULTILINE)
+        
+        # Remove special characters and digits
+        text = re.sub(r'[^a-zA-Z\s]', '', text)
+        
+        # Tokenize
+        tokens = word_tokenize(text)
+        
+        # Remove stopwords and stem
+        tokens = [self.stemmer.stem(word) for word in tokens if word not in self.stop_words]
+        
+        # Join back
+        return ' '.join(tokens)
