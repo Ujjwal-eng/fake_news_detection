@@ -1,33 +1,24 @@
 FAKE NEWS DETECTION - MODEL TRAINING RESULTS
-==================================================
+============================================================
 
-Training Date: 2025-11-04 18:59:10.367507
-Training Data: 15 articles
-Train/Test Split: 11/4
+Training Data: 11632 articles
+Train/Test Split: 9305/2327
 
 MODEL PERFORMANCE:
-------------------------------
+------------------------------------------------------------
+
 NAIVE_BAYES:
-  Description: Naive Bayes - Fast probabilistic classifier
-  Train Accuracy: 1.000
-  Test Accuracy: 0.250
-  Overfitting: Yes
+  Train Accuracy: 0.865
+  Test Accuracy: 0.832
 
 LOGISTIC_REGRESSION:
-  Description: Logistic Regression - Linear classifier with probabilities
-  Train Accuracy: 0.818
-  Test Accuracy: 0.250
-  Overfitting: Yes
+  Train Accuracy: 0.938
+  Test Accuracy: 0.900
 
 RANDOM_FOREST:
-  Description: Random Forest - Ensemble of decision trees
-  Train Accuracy: 1.000
-  Test Accuracy: 0.250
-  Overfitting: Yes
+  Train Accuracy: 0.965
+  Test Accuracy: 0.878
 
 SVM:
-  Description: Support Vector Machine - Maximum margin classifier
-  Train Accuracy: 1.000
-  Test Accuracy: 0.250
-  Overfitting: Yes
-
+  Train Accuracy: 0.957
+  Test Accuracy: 0.897
