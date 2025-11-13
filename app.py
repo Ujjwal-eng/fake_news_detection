@@ -23,8 +23,8 @@ def load_model():
     
     try:
         # Try to load trained models
-        model_path = os.path.join(config.MODEL_DIR, 'naive_bayes_model.joblib')
-        vectorizer_path = os.path.join(config.MODEL_DIR, 'vectorizer.joblib')
+        model_path = os.path.join(config.MODELS_DIR, 'naive_bayes_model.joblib')
+        vectorizer_path = os.path.join(config.MODELS_DIR, 'vectorizer.joblib')
         
         if os.path.exists(model_path) and os.path.exists(vectorizer_path):
             model = joblib.load(model_path)
