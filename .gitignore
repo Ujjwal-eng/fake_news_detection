@@ -38,7 +38,8 @@ wheels/
 Thumbs.db
 
 # Project specific
-models/*.joblib
+# Note: Including trained models so the app works immediately after cloning
+# models/*.joblib  <- Commented out to include models in repo
 *.pkl
 *.h5
 
