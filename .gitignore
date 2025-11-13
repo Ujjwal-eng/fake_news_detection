@@ -1,0 +1,57 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Project specific
+models/*.joblib
+*.pkl
+*.h5
+
+# Environment variables
+.env
+.env.local
+
+# Data files (optional - remove these lines if you want to include data)
+# data/raw/*
+# data/processed/*
+
+# Learning materials and practice modules (not part of main project)
+machine_learning/
+text_preprocessing/
+machine_learning_learning_path.md
+text_preprocessing learning path.md
