@@ -115,9 +115,10 @@ model_loaded = load_all_models()
 
 @app.route('/')
 def home():
-    """Render the home page"""
-    return render_template('index.html', 
-                         model_loaded=model_loaded, 
+    """Render the professional UI as default home page"""
+    return render_template('index_professional.html',
+                         model_loaded=len(models) > 0,
+                         available_models=list(models.keys()),
                          sample_news=SAMPLE_NEWS)
 
 @app.route('/predict', methods=['POST'])
@@ -235,14 +236,6 @@ def predict():
 def about():
     """Render the about page"""
     return render_template('about.html')
-
-@app.route('/professional')
-def professional():
-    """Render the professional UI preview"""
-    return render_template('index_professional.html',
-                         model_loaded=len(models) > 0,
-                         available_models=list(models.keys()),
-                         sample_news=SAMPLE_NEWS)
 
 @app.route('/api/health')
 def health():
