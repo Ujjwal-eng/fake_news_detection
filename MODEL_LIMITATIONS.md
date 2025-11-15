@@ -45,69 +45,101 @@ Your fake news detection models achieve **83-90% accuracy** on the test set, but
 - ❌ Project details don't match reality
 - ❌ But the MODEL CANNOT VERIFY THIS - it only analyzes text patterns
 
-## Solutions (For Future Enhancement)
+## Solutions
 
-To detect sophisticated fake news like the Delhi Metro example, you would need:
+### ✅ Fact-Checking Integration (NOW IMPLEMENTED!)
 
-### 1. Fact-Checking Integration
+The system now includes an **AI-powered fact-checker** that helps detect sophisticated fake news:
+
 ```python
-# Pseudo-code example
+# Current implementation
 def enhanced_detection(article_text):
     # Step 1: ML model checks writing patterns
     ml_prediction = model.predict(article_text)
     
-    # Step 2: Extract claims
-    claims = extract_factual_claims(article_text)
+    # Step 2: Fact-checker analyzes content
+    fact_check_result = fact_checker.analyze(article_text)
     
-    # Step 3: Verify against databases
-    for claim in claims:
-        if claim.type == "infrastructure_project":
-            verified = check_government_database(claim)
-        elif claim.type == "policy_announcement":
-            verified = check_official_sources(claim)
+    # Extract entities (organizations, locations, dates)
+    entities = extract_entities(article_text)
     
-    # Step 4: Combine ML + fact-checking
-    return combine_scores(ml_prediction, verification_results)
+    # Verify entities on Wikipedia
+    verification_results = verify_entities(entities)
+    
+    # Check numerical claims (percentages, distances)
+    numerical_flags = check_numerical_claims(article_text)
+    
+    # Detect scam patterns (viral messages, chain letters)
+    scam_patterns = detect_scam_patterns(article_text)
+    
+    # Step 3: Combine ML + fact-checking
+    if fact_check_result.has_issues():
+        # Override ML prediction if factual issues found
+        return "FAKE (Fact-check override)", warnings
+    else:
+        return ml_prediction, []
 ```
 
-### 2. Knowledge Graph Integration
-- Connect to Wikipedia/Wikidata
-- Cross-reference entity relationships
-- Verify temporal consistency (dates, timelines)
+**What the Fact-Checker Does:**
+- ✅ Extracts organizations, locations, dates using spaCy NER
+- ✅ Verifies entities against Wikipedia
+- ✅ Validates numerical claims (percentages, distances, speeds)
+- ✅ Detects viral message patterns and chain letters
+- ✅ Can override ML predictions when factual issues are found
+
+**Limitations of Fact-Checker:**
+- Cannot verify recently created entities (not yet on Wikipedia)
+- Limited to information available in Wikipedia
+- May miss context-specific claims
+- Requires active internet connection
+
+### 2. Enhanced Fact-Checking (Future Enhancement)
+- ✅ Wikipedia integration (IMPLEMENTED)
+- Government press release databases (planned)
+- Real-time news wire verification (planned)
+- Temporal consistency checking (planned)
 
 ### 3. Source Credibility Analysis
 - Check if the news source is legitimate
 - Verify journalist credentials
 - Analyze domain reputation
 
-### 4. Real-time APIs
-- Government press release databases
-- Fact-checking organization APIs (Alt News, BOOM Live, Snopes)
-- News wire services (PTI, Reuters, ANI)
+### 4. Real-time APIs (Partially Implemented)
+- ✅ Wikipedia API for entity verification (IMPLEMENTED)
+- Government press release databases (planned)
+- Fact-checking organization APIs (Alt News, BOOM Live, Snopes) (planned)
+- News wire services (PTI, Reuters, ANI) (planned)
 
 ## Interview Talking Points 💼
 
 When discussing your project in interviews, **this limitation is actually a STRENGTH** because it shows:
 
-### 1. Understanding of ML Limitations
-> "My models achieve 90% accuracy on writing pattern detection, but I'm aware they cannot verify factual accuracy. For example, a fake news article about Delhi Metro written in professional journalistic style would be misclassified because it lacks the telltale writing patterns the models learned. This is a fundamental limitation of text-based ML without external knowledge bases."
+### 1. Understanding of ML Limitations & Solutions
+> "My models achieve 90% accuracy on writing pattern detection, but I'm aware they cannot verify factual accuracy on their own. That's why I implemented a dual-layer system: the ML models detect writing patterns, and an AI fact-checker powered by spaCy NER and Wikipedia API verifies entities and numerical claims. For example, if an article mentions an organization, the fact-checker verifies it against Wikipedia. This hybrid approach catches sophisticated fake news that writing patterns alone would miss."
 
-### 2. System Design Thinking
-> "To build a production system, I would architect a two-stage pipeline: Stage 1 uses my ML models for pattern detection, Stage 2 integrates with fact-checking APIs and knowledge graphs for claim verification. This hybrid approach combines the speed of ML with the accuracy of fact-checking."
+### 2. System Design Thinking & Implementation
+> "I architected a two-stage pipeline: Stage 1 uses ensemble ML models (Naive Bayes, Logistic Regression, Random Forest, SVM) for pattern detection with 90% accuracy, and Stage 2 uses an AI fact-checker with spaCy for Named Entity Recognition and Wikipedia API for entity verification. The fact-checker can override ML predictions when it detects unverifiable entities or suspicious numerical claims. This demonstrates both ML fundamentals and system integration skills."
 
 ### 3. Real-World Problem Solving
-> "During testing, I discovered that professionally-written false news gets misclassified. This taught me that ML models are tools, not magic - they need to be combined with domain knowledge and external data sources for robust fake news detection."
+> "During testing, I discovered that professionally-written false news gets misclassified by ML models alone. So I added an AI fact-checker that extracts entities using spaCy's Named Entity Recognition and verifies them against Wikipedia. I also implemented edge case validation to handle URL-only inputs, non-English text, and content that becomes empty after preprocessing. This taught me that production systems need multiple layers of validation and verification."
 
 ### 4. Awareness of Training Data Limitations
 > "My models are trained on 2016-2023 data where infrastructure announcements were predominantly real news. To improve performance on false announcements, I would need training data with similar sophisticated fake news examples, which are rare because fact-checkers focus on viral sensational content first."
 
 ## Recommendation
 
-**For your resume project**: Keep the current models as-is because:
-- ✅ They demonstrate strong ML fundamentals (90% accuracy)
-- ✅ They show understanding of NLP and ensemble methods
-- ✅ The limitation is industry-standard (even commercial systems struggle with this)
-- ✅ Your awareness of the limitation shows maturity as an ML engineer
+**Current Status**: The project now includes:
+- ✅ 4 ML models with 90% accuracy (ensemble voting)
+- ✅ AI-powered fact-checker (spaCy + Wikipedia)
+- ✅ Input validation (edge case handling)
+- ✅ Dual-layer detection system
+
+**Why this is excellent for your portfolio:**
+- ✅ Demonstrates strong ML fundamentals (ensemble methods, NLP)
+- ✅ Shows system integration skills (ML + external APIs)
+- ✅ Exhibits production-ready thinking (validation, error handling)
+- ✅ Displays understanding of AI limitations and solutions
+- ✅ Your implementation addresses real-world challenges
 
 **Document this limitation** in:
 - README.md (add "Limitations" section)
@@ -116,17 +148,22 @@ When discussing your project in interviews, **this limitation is actually a STRE
 
 ## The Bottom Line
 
-**This is NOT a bug, it's a fundamental constraint of text-based ML models.**
+**The dual-layer system combines the best of both worlds:**
 
-Even sophisticated systems like GPT-4 cannot verify factual accuracy without external knowledge sources. Your project is excellent for a portfolio - just make sure you can articulate this limitation and potential solutions in interviews!
+1. **ML Models** (Stage 1): Fast pattern detection for sensational/poorly-written fake news ✅
+2. **AI Fact-Checker** (Stage 2): Entity verification for sophisticated fake news ✅
 
----
+Even with fact-checking, some limitations remain:
+- Cannot verify very recent events (not yet on Wikipedia)
+- Limited to entities with Wikipedia pages
+- May miss context-specific or local claims
 
-**Key Takeaway**: ML models learn patterns, not facts. For robust fake news detection, you need:
-1. Text analysis (your current models) ✅
-2. Fact-checking integration (future enhancement)
-3. Source credibility analysis (future enhancement)
-4. Real-time knowledge bases (future enhancement)
+**For robust fake news detection at scale, you would still need:**
+1. ✅ Text analysis (your current ensemble models) - IMPLEMENTED
+2. ✅ Basic fact-checking (spaCy + Wikipedia) - IMPLEMENTED
+3. ⏳ Government database integration - Future enhancement
+4. ⏳ Real-time news wire verification - Future enhancement
+5. ⏳ Advanced source credibility analysis - Future enhancement
 
 ---
 
@@ -261,5 +298,9 @@ def validate_input(text, preprocessor):
 ---
 
 **Last Updated:** November 2025  
-**Model Version:** Ensemble v1.0 (NB + LR + RF + SVM)  
+**System Version:** Dual-Layer Detection v2.0  
+**Components:** 
+- ML Ensemble (NB + LR + RF + SVM) - 90% accuracy
+- AI Fact-Checker (spaCy 3.8 + Wikipedia API)
+- Input Validation & Edge Case Handling  
 **Training Data:** 2016-2023 (11,632 articles)
