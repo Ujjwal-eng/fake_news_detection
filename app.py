@@ -221,8 +221,9 @@ def predict():
         all_predictions = {}
         fake_votes = 0
         real_votes = 0
-        total_fake_confidence = 0.0
-        total_real_confidence = 0.0
+        sum_of_confidences = 0.0  # Sum of winning confidences only
+        all_fake_probs = []
+        all_real_probs = []
         
         for model_name, model in models.items():
             # Make prediction
@@ -234,6 +235,10 @@ def predict():
             real_prob = float(prediction_proba[0] * 100)
             fake_prob = float(prediction_proba[1] * 100)
             
+            # Collect all probabilities
+            all_fake_probs.append(fake_prob)
+            all_real_probs.append(real_prob)
+            
             # Store individual model result
             all_predictions[model_name] = {
                 'prediction': 'FAKE NEWS' if prediction == 1 else 'REAL NEWS',
@@ -242,29 +247,40 @@ def predict():
                 'real_probability': real_prob
             }
             
-            # Count votes
+            # Count votes and sum winning confidences
             if prediction == 1:  # Fake
                 fake_votes += 1
-                total_fake_confidence += fake_prob
+                sum_of_confidences += fake_prob
             else:  # Real
                 real_votes += 1
-                total_real_confidence += real_prob
+                sum_of_confidences += real_prob
         
-        # Calculate average confidences
+        # Calculate average confidences for each class
         num_models = len(models)
-        avg_fake_confidence = total_fake_confidence / num_models
-        avg_real_confidence = total_real_confidence / num_models
+        avg_fake_confidence = sum(all_fake_probs) / num_models
+        avg_real_confidence = sum(all_real_probs) / num_models
+        
+        # Calculate ensemble confidence (average of winning models' confidences)
+        if fake_votes > 0 and fake_votes == real_votes:
+            # In case of tie, use the class with higher average
+            ensemble_confidence = max(avg_fake_confidence, avg_real_confidence)
+        elif fake_votes > real_votes:
+            # Majority FAKE: average confidence of models that predicted FAKE
+            ensemble_confidence = sum_of_confidences / fake_votes
+        else:
+            # Majority REAL: average confidence of models that predicted REAL
+            ensemble_confidence = sum_of_confidences / real_votes
         
         # Ensemble decision logic
         if fake_votes > real_votes:
             # Majority says FAKE
             final_prediction = 'FAKE NEWS'
-            final_confidence = avg_fake_confidence
+            final_confidence = ensemble_confidence
             decision_type = 'Majority Vote'
         elif real_votes > fake_votes:
             # Majority says REAL
             final_prediction = 'REAL NEWS'
-            final_confidence = avg_real_confidence
+            final_confidence = ensemble_confidence
             decision_type = 'Majority Vote'
         else:
             # TIE (2-2): Use average confidence as tie-breaker
