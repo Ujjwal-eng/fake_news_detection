@@ -232,6 +232,13 @@ def predict():
             
             # prediction_proba is [prob_class_0, prob_class_1]
             # where class 0 = REAL, class 1 = FAKE
+            
+            # FIX: Some models (Random Forest) may return unnormalized values
+            # Normalize if values are not in 0-1 range
+            if prediction_proba[0] > 1.0 or prediction_proba[1] > 1.0:
+                total = prediction_proba[0] + prediction_proba[1]
+                prediction_proba = prediction_proba / total if total > 0 else prediction_proba
+            
             real_prob = float(prediction_proba[0] * 100)
             fake_prob = float(prediction_proba[1] * 100)
             
@@ -306,6 +313,11 @@ def predict():
             'individual_results': all_predictions,
             'total_models': num_models
         }
+        
+        # Debug: Print the confidence being sent
+        print(f"DEBUG: Sending confidence = {result['confidence']}%")
+        print(f"DEBUG: final_confidence = {final_confidence}")
+        print(f"DEBUG: ensemble_confidence = {ensemble_confidence}")
         
         # Add warning if text was very short
         if warning_msg:
