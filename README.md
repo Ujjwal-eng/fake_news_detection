@@ -9,12 +9,14 @@ An AI-powered web application that uses Natural Language Processing (NLP) and Ma
 
 ## 🌟 Features
 
-- **🤖 Multiple ML Models**: Naive Bayes, Random Forest, Logistic Regression, and SVM
-- **🔍 Advanced NLP**: Text preprocessing with tokenization, stemming, and TF-IDF vectorization
-- **🎨 Modern Web Interface**: Beautiful, responsive Flask-based UI
-- **⚡ Real-time Predictions**: Instant classification with confidence scores
-- **📊 Detailed Analytics**: Probability distributions and model performance metrics
-- **🧪 Comprehensive Testing**: Unit tests and model evaluation suite
+- **🤖 Ensemble ML Models**: 4 models (Naive Bayes, Random Forest, Logistic Regression, SVM) with majority voting
+- **🔍 AI Fact-Checker**: Entity verification via Wikipedia, numerical claim validation, scam pattern detection
+- **🧠 Advanced NLP**: Text preprocessing with tokenization, stemming, stopword removal, and TF-IDF vectorization
+- **🎨 Modern Web Interface**: Beautiful, responsive Flask-based UI with dark/light themes
+- **⚡ Real-time Analysis**: Instant classification with confidence scores and detailed insights
+- **📊 Comprehensive Analytics**: Probability distributions, model performance metrics, and fact-check warnings
+- **🛡️ Input Validation**: Smart edge case handling for URLs, non-English text, and invalid inputs
+- **🧪 Thorough Testing**: Unit tests, model evaluation suite, and edge case analysis
 
 ## 📁 Project Structure
 
@@ -32,6 +34,7 @@ fake-news-detection/
 │   ├── __init__.py
 │   ├── data_processing.py # NLP preprocessing utilities
 │   ├── model.py          # ML model implementation
+│   ├── fact_checker.py   # AI fact-checking module (NEW!)
 │   └── utils.py          # Helper functions
 ├── data/                 # Dataset storage
 │   ├── raw/              # Raw datasets
@@ -238,7 +241,9 @@ Detailed prediction with confidence scores and probabilities
 ### Use Responsibly
 This system is designed as an **educational tool and ML demonstration project**. It should not be used as the sole method for verifying news authenticity.
 
-### What the Models CAN Detect
+### Two-Layer Detection System
+
+#### Layer 1: Machine Learning Models
 The models analyze **writing patterns and linguistic features**:
 - ✅ Sensational language and emotional manipulation
 - ✅ Conspiracy theory rhetoric patterns
@@ -247,12 +252,21 @@ The models analyze **writing patterns and linguistic features**:
 - ✅ Absence of proper attribution and sources
 - ✅ Vague or missing details
 
-### What the Models CANNOT Detect
-The models **cannot verify factual accuracy**:
-- ❌ Cannot check if events actually happened
-- ❌ Cannot validate if statistics are correct
-- ❌ Cannot verify if infrastructure projects exist
-- ❌ Cannot confirm if official announcements were made
+#### Layer 2: AI Fact-Checker (NEW!)
+The fact-checker performs **content verification and claim validation**:
+- ✅ **Entity Verification**: Cross-references organizations, locations, and infrastructure with Wikipedia
+- ✅ **Numerical Validation**: Detects unrealistic claims (impossible percentages, distances, speeds)
+- ✅ **Scam Pattern Detection**: Identifies viral message patterns ("forward this", "share urgently")
+- ✅ **Confidence Override**: Automatically flags articles with verifiable false claims as FAKE
+
+**How it works**: If the fact-checker detects contradictions (e.g., non-existent metro lines, impossible statistics), it **overrides the ML prediction** and classifies the article as FAKE NEWS, even if the writing style appears professional.
+
+### What the System CANNOT Detect
+Despite the dual-layer approach, some limitations remain:
+- ❌ Cannot verify very recent events not yet documented on Wikipedia
+- ❌ Cannot access paywalled sources or private databases
+- ❌ Limited to English language content
+- ❌ Cannot verify claims requiring real-time data or government databases
 
 **Example**: A fake news article about a non-existent Delhi Metro line, written in professional journalistic style with specific details, would be misclassified as REAL because it matches the writing patterns of legitimate news. The models detect patterns, not facts.
 

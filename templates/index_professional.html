@@ -774,6 +774,31 @@
             font-family: 'JetBrains Mono', monospace;
         }
 
+        /* Fact-Check Warnings */
+        .fact-check-warnings {
+            margin-bottom: 24px;
+            padding: 20px;
+            background: rgba(245, 158, 11, 0.08);
+            border: 2px solid rgba(245, 158, 11, 0.3);
+            border-radius: 12px;
+            animation: slideDown 0.3s ease;
+        }
+
+        .fact-check-warnings .warning-item {
+            padding: 8px 12px;
+            background: rgba(245, 158, 11, 0.1);
+            border-left: 3px solid var(--warning);
+            border-radius: 6px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .fact-check-warnings .warning-item i {
+            color: var(--warning);
+        }
+
         /* Chart */
         .chart-container {
             margin-top: 32px;
@@ -1068,6 +1093,57 @@
                 gap: 20px;
             }
         }
+
+        /* Footer */
+        .footer {
+            margin-top: 120px;
+            padding: 40px 0;
+            border-top: 1px solid var(--glass-border);
+            text-align: center;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--gray-light);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .footer-copyright {
+            color: var(--gray);
+            font-size: 13px;
+            margin-top: 12px;
+            text-align: center;
+        }
+
+        .footer-copyright p {
+            text-align: center;
+        }
+
+        .footer-copyright i {
+            color: var(--danger);
+        }
     </style>
 </head>
 <body>
@@ -1107,6 +1183,11 @@
                 <div class="stat-label">ML Models</div>
             </div>
             <div class="stat-card">
+                <div class="stat-icon">�</div>
+                <div class="stat-value">✓</div>
+                <div class="stat-label">Fact Checker</div>
+            </div>
+            <div class="stat-card">
                 <div class="stat-icon">📊</div>
                 <div class="stat-value">11,632</div>
                 <div class="stat-label">Training Articles</div>
@@ -1115,11 +1196,6 @@
                 <div class="stat-icon">🎯</div>
                 <div class="stat-value">90%</div>
                 <div class="stat-label">Accuracy</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">📅</div>
-                <div class="stat-value">2016-2023</div>
-                <div class="stat-label">Dataset Coverage</div>
             </div>
         </div>
 
@@ -1150,6 +1226,10 @@
                         </div>
                     </div>
 
+                    <button type="submit" class="analyze-btn" id="analyzeBtn" style="margin-bottom: 32px;">
+                        <i class="fas fa-brain"></i> Analyze with AI
+                    </button>
+
                     <div class="sample-news">
                         <h3><i class="fas fa-flask"></i> Try Sample Articles</h3>
                         <div class="sample-grid">
@@ -1175,57 +1255,9 @@
                             </button>
                         </div>
                     </div>
-
-                    <button type="submit" class="analyze-btn" id="analyzeBtn">
-                        <i class="fas fa-brain"></i> Analyze with AI
-                    </button>
                 </form>
 
-                <!-- Model Performance - Moved from sidebar -->
-                <div class="info-card" style="margin-top: 32px;">
-                    <h3><i class="fas fa-shield-alt"></i> Model Performance</h3>
-                    <p style="font-size: 13px; color: var(--gray-light); margin-bottom: 16px;">
-                        Individual accuracy of each AI model on test data:
-                    </p>
-                    <div class="metric-item">
-                        <span class="metric-label">
-                            <i class="fas fa-chart-pie" style="color: #6366f1; margin-right: 8px;"></i>
-                            Naive Bayes
-                        </span>
-                        <span class="metric-value" style="color: #8b5cf6;">83.2% accurate</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-label">
-                            <i class="fas fa-chart-line" style="color: #10b981; margin-right: 8px;"></i>
-                            Logistic Regression
-                        </span>
-                        <span class="metric-value" style="color: #10b981;">90.0% accurate</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-label">
-                            <i class="fas fa-tree" style="color: #f59e0b; margin-right: 8px;"></i>
-                            Random Forest
-                        </span>
-                        <span class="metric-value" style="color: #f59e0b;">87.8% accurate</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-label">
-                            <i class="fas fa-project-diagram" style="color: #ef4444; margin-right: 8px;"></i>
-                            Support Vector Machine
-                        </span>
-                        <span class="metric-value" style="color: #ef4444;">89.7% accurate</span>
-                    </div>
-                    <div class="ensemble-info">
-                        <p>
-                            <i class="fas fa-info-circle" style="color: var(--success);"></i>
-                            <strong>Ensemble Average:</strong> 87.7% accuracy
-                            <br>
-                            <span>Combining all 4 models improves reliability</span>
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Important Note - Moved from sidebar -->
+                <!-- Important Note -->
                 <div class="warning-card" style="margin-top: 24px;">
                     <h4><i class="fas fa-exclamation-triangle"></i> Important Note</h4>
                     <p>
@@ -1242,6 +1274,16 @@
                 <div id="results" class="results">
                     <div class="result-header">
                         <div id="resultBadge" class="result-badge"></div>
+                    </div>
+
+                    <!-- Fact-Check Warnings Section -->
+                    <div id="factCheckWarnings" class="fact-check-warnings" style="display: none;">
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+                            <i class="fas fa-exclamation-triangle" style="color: var(--warning); font-size: 20px;"></i>
+                            <h3 style="margin: 0; color: var(--warning);">Fact-Check Alerts</h3>
+                        </div>
+                        <div id="warningsList" style="display: flex; flex-direction: column; gap: 8px;"></div>
+                        <div id="factCheckReason" style="margin-top: 12px; padding: 12px; background: rgba(245, 158, 11, 0.1); border-radius: 8px; font-size: 14px;"></div>
                     </div>
 
                     <div class="confidence-section">
@@ -1328,11 +1370,43 @@
                 <div class="info-card">
                     <h3><i class="fas fa-lightbulb"></i> How It Works</h3>
                     <p>
-                        Our AI ensemble uses 4 machine learning models trained on 11,632 articles to analyze writing patterns, linguistic features, and text characteristics that distinguish real from fake news.
+                        Our AI system combines <strong>4 machine learning models</strong> (Naive Bayes, Logistic Regression, Random Forest, SVM) trained on 11,632 articles with an advanced <strong>fact-checking module</strong>.
                     </p>
+                    <div style="margin-top: 16px; padding-left: 12px; border-left: 3px solid var(--primary);">
+                        <p style="font-size: 14px; margin-bottom: 8px;">
+                            <i class="fas fa-brain" style="color: var(--primary);"></i> 
+                            <strong>ML Analysis:</strong> Detects fake news patterns through writing style, sensational language, and linguistic features.
+                        </p>
+                        <p style="font-size: 14px; margin-bottom: 0;">
+                            <i class="fas fa-search-plus" style="color: var(--success);"></i> 
+                            <strong>Fact Checker:</strong> Verifies entities on Wikipedia, detects unrealistic claims, and identifies scam patterns to catch sophisticated fake news.
+                        </p>
+                    </div>
                 </div>
             </aside>
         </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-links">
+                    <span style="color: var(--gray-light); font-size: 14px;">
+                        <i class="fas fa-envelope"></i> Contact: bansalujjwal25@gmail.com
+                    </span>
+                    <a href="https://www.linkedin.com/in/ujjwal-bansal-581a1a298/" target="_blank">
+                        <i class="fab fa-linkedin"></i> LinkedIn
+                    </a>
+                </div>
+                <div class="footer-copyright">
+                    <p>
+                        © 2025 Fake News Detector. Built with <i class="fas fa-heart"></i> using Machine Learning & AI
+                    </p>
+                    <p style="margin-top: 8px; font-size: 12px;">
+                        <i class="fas fa-info-circle"></i> Educational Project | Not for Commercial Use
+                    </p>
+                </div>
+            </div>
+        </footer>
     </div>
 
     <script>
@@ -1506,13 +1580,34 @@
             
             // Result badge
             const badge = document.getElementById('resultBadge');
-            const prediction = data.prediction.toUpperCase();
+            const prediction = data.final_verdict || data.prediction.toUpperCase();
             const isFake = prediction.includes('FAKE');
             badge.textContent = isFake ? '🚫 FAKE NEWS' : '✅ REAL NEWS';
             badge.className = 'result-badge ' + (isFake ? 'fake' : 'real');
 
-            // Confidence
-            const confidence = Math.round(data.confidence);
+            // Display fact-check warnings if available
+            const factCheck = data.fact_check;
+            const factCheckSection = document.getElementById('factCheckWarnings');
+            
+            if (factCheck && factCheck.warnings && factCheck.warnings.length > 0) {
+                const warningsList = document.getElementById('warningsList');
+                warningsList.innerHTML = factCheck.warnings.map(warning => 
+                    `<div class="warning-item">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <span>${warning}</span>
+                    </div>`
+                ).join('');
+                
+                const reasonElement = document.getElementById('factCheckReason');
+                reasonElement.innerHTML = `<strong>Analysis:</strong> ${data.fact_check_reason || 'Potential factual inconsistencies detected.'}`;
+                
+                factCheckSection.style.display = 'block';
+            } else {
+                factCheckSection.style.display = 'none';
+            }
+
+            // Confidence - use adjusted confidence if available
+            const confidence = Math.round(data.adjusted_confidence || data.confidence);
             document.getElementById('confidenceValue').textContent = confidence + '%';
             
             setTimeout(() => {

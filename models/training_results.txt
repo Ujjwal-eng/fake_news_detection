@@ -13,12 +13,12 @@ NAIVE_BAYES:
 
 LOGISTIC_REGRESSION:
   Train Accuracy: 0.938
-  Test Accuracy: 0.900
+  Test Accuracy: 0.898
 
 RANDOM_FOREST:
-  Train Accuracy: 0.965
-  Test Accuracy: 0.878
+  Train Accuracy: 0.956
+  Test Accuracy: 0.871
 
 SVM:
   Train Accuracy: 0.957
-  Test Accuracy: 0.897
+  Test Accuracy: 0.898

@@ -13,16 +13,28 @@ Ensemble: Majority voting with confidence-based tie-breaking
 
 from flask import Flask, render_template, request, jsonify
 import os
+import re
 import joblib
 import numpy as np
 from src.data_processing import TextPreprocessor
 import config
+
+# Try to import FactChecker (optional - requires spacy)
+try:
+    from src.fact_checker import FactChecker
+    FACT_CHECKER_AVAILABLE = True
+except (ImportError, OSError) as e:
+    print(f"⚠️ Fact Checker not available: {e}")
+    print("   Install spacy with: pip install spacy && python -m spacy download en_core_web_sm")
+    FactChecker = None
+    FACT_CHECKER_AVAILABLE = False
 
 app = Flask(__name__)
 
 # Global variables for models and vectorizer
 models = {}
 vectorizer = None
+fact_checker = None
 current_model_name = "Naive Bayes"
 
 # Sample news datasets for testing - 2025 news with detectable patterns
@@ -101,6 +113,20 @@ def load_all_models():
         
         if models_loaded > 0:
             print(f"✓ Total {models_loaded} models loaded!")
+            
+            # Initialize fact checker (optional feature)
+            global fact_checker
+            if FACT_CHECKER_AVAILABLE and FactChecker is not None:
+                try:
+                    fact_checker = FactChecker()
+                    print("✓ Fact Checker initialized successfully!")
+                except Exception as e:
+                    print(f"⚠ Fact Checker initialization failed: {e}")
+                    fact_checker = None
+            else:
+                print("⚠ Fact Checker not available (spacy not installed)")
+                fact_checker = None
+            
             return True
         else:
             print("⚠ No trained models found. Please train models first.")
@@ -121,6 +147,43 @@ def home():
                          available_models=list(models.keys()),
                          sample_news=SAMPLE_NEWS)
 
+def validate_input(text: str, preprocessor) -> tuple:
+    """
+    Validate user input before processing
+    Returns: (is_valid: bool, error_message: str, warning_message: str)
+    """
+    # Check if empty
+    if not text or not text.strip():
+        return False, "Please enter some text to analyze.", ""
+    
+    # Check minimum length
+    if len(text.strip()) < 20:
+        return False, "Text is too short. Please enter at least 20 characters of article text.", ""
+    
+    # Check if it's just a URL
+    url_pattern = r'^(https?://|www\.)\S+$'
+    if re.match(url_pattern, text.strip()):
+        return False, "Please enter the article text content, not just the URL. Copy the full article text instead.", ""
+    
+    # Check if mostly non-English characters
+    english_chars = len(re.findall(r'[a-zA-Z]', text))
+    total_chars = len(re.sub(r'\s', '', text))
+    if total_chars > 0 and english_chars / total_chars < 0.3:
+        return False, "This model only supports English text. Text appears to be in a non-English language.", ""
+    
+    # Check if preprocessed text will be too short
+    preprocessed = preprocessor.preprocess(text)
+    if len(preprocessed.strip()) < 10:
+        return False, "Text contains insufficient analyzable content after preprocessing. Please provide more meaningful English text.", ""
+    
+    # Warning for very short preprocessed text
+    warning = ""
+    if len(preprocessed.split()) < 5:
+        warning = "⚠️ Very short text detected. Prediction confidence may be low."
+    
+    return True, "", warning
+
+
 @app.route('/predict', methods=['POST'])
 def predict():
     """Handle prediction requests using ensemble voting from all models"""
@@ -137,14 +200,18 @@ def predict():
         text = data.get('text', '').strip()
         use_ensemble = data.get('ensemble', True)  # Default to ensemble mode
         
-        if not text:
+        # Initialize preprocessor
+        preprocessor = TextPreprocessor()
+        
+        # Validate input
+        is_valid, error_msg, warning_msg = validate_input(text, preprocessor)
+        if not is_valid:
             return jsonify({
-                'error': 'Please enter some text to analyze.',
+                'error': error_msg,
                 'success': False
             })
         
         # Preprocess the text
-        preprocessor = TextPreprocessor()
         processed_text = preprocessor.preprocess(text)
         
         # Vectorize the text
@@ -223,6 +290,43 @@ def predict():
             'individual_results': all_predictions,
             'total_models': num_models
         }
+        
+        # Add warning if text was very short
+        if warning_msg:
+            result['warning'] = warning_msg
+        
+        # Add fact-checking if available
+        if fact_checker:
+            try:
+                # Analyze text for factual claims
+                fact_check_result = fact_checker.analyze(text)
+                
+                # Get final verdict combining ML and fact-checking
+                is_fake = (final_prediction == 'FAKE NEWS')
+                final_verdict = fact_checker.get_verdict(
+                    ml_prediction=is_fake,
+                    ml_confidence=final_confidence,
+                    fact_check_result=fact_check_result
+                )
+                
+                # Add fact-checking data to result
+                result['fact_check'] = {
+                    'entities_found': fact_check_result['entities'],
+                    'numerical_issues': fact_check_result['numerical_issues'],
+                    'verification_results': fact_check_result['verification_results'],
+                    'warnings': fact_check_result['warnings'],
+                    'confidence_adjustment': fact_check_result['confidence_adjustment']
+                }
+                
+                # Update final prediction and confidence with fact-check verdict
+                result['final_verdict'] = final_verdict['verdict']
+                result['adjusted_confidence'] = final_verdict['adjusted_confidence']
+                result['fact_check_reason'] = final_verdict['reason']
+                
+            except Exception as fact_check_error:
+                print(f"Fact-checking error: {fact_check_error}")
+                # Continue without fact-checking if it fails
+                result['fact_check'] = None
         
         return jsonify(result)
         

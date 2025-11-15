@@ -127,3 +127,139 @@ Even sophisticated systems like GPT-4 cannot verify factual accuracy without ext
 2. Fact-checking integration (future enhancement)
 3. Source credibility analysis (future enhancement)
 4. Real-time knowledge bases (future enhancement)
+
+---
+
+## Edge Case Limitations (Input Handling)
+
+### 🚫 What Types of Input This Model CANNOT Process
+
+#### 1. **Non-English Languages**
+- ❌ **Cannot process:** Hindi, Arabic, Spanish, or any non-English text
+- **Why:** Preprocessing removes all non-English characters as "special characters"
+- **What happens:** Text becomes empty, prediction is unreliable
+- **Example:** `यह एक नकली खबर है` → Empty → Random prediction
+- **Status:** ✅ Now validated and returns error message
+
+#### 2. **URL-Only Input**
+- ❌ **Cannot analyze:** Bare URLs without article text
+- **Why:** URLs are stripped during preprocessing to avoid bias
+- **What happens:** Empty input, unreliable prediction
+- **Example:** `https://timesofindia.com/article` → Empty → Random prediction
+- **Solution:** Paste the full article text, not just the URL
+- **Status:** ✅ Now validated and returns error message
+
+#### 3. **Very Short Text**
+- ❌ **Cannot reliably classify:** Single words or very short phrases
+- **Why:** Insufficient features for meaningful classification
+- **What happens:** Low confidence predictions (~50-60%)
+- **Example:** `Fake` → Weak signal → Unreliable prediction
+- **Minimum recommended:** At least 20-30 words for reliable prediction
+- **Status:** ✅ Now shows warning for short text
+
+#### 4. **Numbers-Only Content**
+- ❌ **Cannot process:** Pure numerical content
+- **Why:** All digits are removed during preprocessing
+- **What happens:** Empty input, random prediction
+- **Example:** `12345 67890` → Empty → Random prediction
+- **Status:** ✅ Now validated and returns error message
+
+#### 5. **Special Characters Only**
+- ❌ **Cannot process:** Text with only special characters
+- **Why:** Preprocessing removes all non-alphabetic characters
+- **What happens:** Empty input, unreliable prediction
+- **Example:** `!!! $$$ @@@ ###` → Empty → Random prediction
+- **Status:** ✅ Now validated and returns error message
+
+### 📊 Edge Case Testing Results
+
+See `test_preprocessing.py` for detailed tests showing what happens to each input type.
+
+| Input Type | Original Example | After Preprocessing | Model Behavior | Validation Status |
+|------------|------------------|---------------------|----------------|-------------------|
+| URL Only | `https://example.com` | EMPTY | Unreliable | ✅ Error shown |
+| Hindi Text | `यह नकली खबर है` | EMPTY | Unreliable | ✅ Error shown |
+| Numbers Only | `12345 67890` | EMPTY | Unreliable | ✅ Error shown |
+| Special Chars | `!!! $$$ @@@` | EMPTY | Unreliable | ✅ Error shown |
+| Very Short | `Fake` | `fake` (1 word) | Weak (~60%) | ✅ Warning shown |
+| URL in Text | `Check https://... shocking!` | `check articl shock` | ✅ Good | Works fine |
+| Numbers in Text | `500 rupees to 100 people` | `rupe peopl` | ✅ Good | Works fine |
+| Normal News | `Reserve Bank announced...` | Full text | ✅ Excellent | Works fine |
+
+### 🔧 Preprocessing Pipeline (How Content is Transformed)
+
+```python
+# What happens to your input text:
+1. Convert to lowercase
+2. Remove URLs (http://, https://, www.)
+3. Remove special characters and digits [^a-zA-Z\s]
+4. Tokenize into words
+5. Remove English stopwords (the, is, a, etc.)
+6. Apply stemming (running → run)
+```
+
+**Impact:** Any content that's purely URLs, non-English, numbers, or special characters will become EMPTY after preprocessing.
+
+### ✅ Input Validation (Now Implemented)
+
+The app now includes validation to catch these edge cases:
+
+```python
+def validate_input(text, preprocessor):
+    """Validate before processing to prevent edge cases"""
+    
+    # Check minimum length
+    if len(text) < 20:
+        return Error: "Text too short"
+    
+    # Check if just a URL
+    if re.match(r'^(https?://|www\.)', text):
+        return Error: "Enter article text, not URL"
+    
+    # Check if mostly non-English
+    if english_chars < 30% of total:
+        return Error: "English text only"
+    
+    # Check if preprocessing will empty the text
+    if len(preprocessed) < 10:
+        return Error: "Insufficient content"
+```
+
+### 📝 User-Facing Error Messages
+
+| Scenario | Error Message |
+|----------|---------------|
+| Empty input | "Please enter some text to analyze." |
+| Too short (<20 chars) | "Text is too short. Please enter at least 20 characters." |
+| URL only | "Please enter the article text, not just the URL." |
+| Non-English | "This model only supports English text." |
+| Becomes empty | "Text contains insufficient analyzable content." |
+
+### 🎯 Best Practices for Users
+
+**To get accurate predictions:**
+
+1. ✅ Provide full article text (100+ words minimum)
+2. ✅ Use English language only
+3. ✅ Include both headline and body text
+4. ✅ Paste article content, not URLs
+5. ❌ Don't use single words or short phrases
+6. ❌ Don't use non-English languages
+7. ❌ Don't paste just URLs or numbers
+
+### 🔮 Future Enhancements for Edge Cases
+
+**Planned improvements:**
+1. Multi-language support (Hindi, Spanish, etc.)
+2. URL content extraction and analysis
+3. Better handling of numerical data
+4. Mixed language detection and translation
+5. Confidence calibration for short texts
+
+**See `EDGE_CASE_ANALYSIS.md` for comprehensive testing details.**
+
+---
+
+**Last Updated:** November 2025  
+**Model Version:** Ensemble v1.0 (NB + LR + RF + SVM)  
+**Training Data:** 2016-2023 (11,632 articles)

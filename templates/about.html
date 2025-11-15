@@ -256,24 +256,24 @@
                     <p>4 algorithms (Naive Bayes, Random Forest, Logistic Regression, SVM) with majority voting</p>
                 </div>
                 <div class="feature-card">
-                    <h4>📊 Real-time Predictions</h4>
-                    <p>Instant classification with confidence scores (83-90% accuracy) and probability distributions</p>
+                    <h4>� AI Fact-Checker</h4>
+                    <p>Entity verification via Wikipedia, numerical validation, and scam pattern detection</p>
                 </div>
                 <div class="feature-card">
-                    <h4>🔍 Advanced NLP</h4>
+                    <h4>📊 Real-time Analysis</h4>
+                    <p>Instant classification with confidence scores (83-90% accuracy) and detailed insights</p>
+                </div>
+                <div class="feature-card">
+                    <h4>🧠 Advanced NLP</h4>
                     <p>Text preprocessing with tokenization, stemming, and TF-IDF vectorization (5,000 features)</p>
                 </div>
                 <div class="feature-card">
                     <h4>🎨 Modern Interface</h4>
-                    <p>Clean, responsive web interface showing individual model predictions and ensemble decision</p>
+                    <p>Clean, responsive web interface with dark/light themes and detailed analytics</p>
                 </div>
                 <div class="feature-card">
-                    <h4>📅 Multi-Year Dataset</h4>
-                    <p>Trained on 11,632 articles from 2016-2023 covering political, health, and general news</p>
-                </div>
-                <div class="feature-card">
-                    <h4>⚖️ Balanced Training</h4>
-                    <p>Perfect 50/50 split (5,816 real + 5,816 fake) for unbiased predictions</p>
+                    <h4>�️ Smart Validation</h4>
+                    <p>Handles edge cases: URLs, non-English text, and invalid inputs with helpful error messages</p>
                 </div>
             </div>
 
@@ -283,6 +283,8 @@
                 <span class="tech-badge">Flask</span>
                 <span class="tech-badge">scikit-learn</span>
                 <span class="tech-badge">NLTK</span>
+                <span class="tech-badge">spaCy</span>
+                <span class="tech-badge">Wikipedia API</span>
                 <span class="tech-badge">Pandas</span>
                 <span class="tech-badge">NumPy</span>
                 <span class="tech-badge">HTML/CSS</span>
@@ -305,12 +307,30 @@
                 <li>Feature selection: Identifying the most informative features</li>
             </ul>
 
-            <h3>3. Classification</h3>
+            <h3>3. Machine Learning Classification</h3>
             <ul>
                 <li>Multiple ML algorithms trained on labeled news datasets</li>
                 <li>Ensemble methods for improved accuracy</li>
                 <li>Probability estimation for confidence scoring</li>
             </ul>
+
+            <h3>4. AI Fact-Checker (NEW!)</h3>
+            <p>
+                Our advanced fact-checking layer adds a second line of defense by verifying content accuracy, 
+                not just writing patterns. This helps catch sophisticated fake news that mimics professional journalism.
+            </p>
+            <ul>
+                <li><strong>Entity Extraction:</strong> Uses spaCy NLP to identify organizations, locations, dates, and infrastructure mentioned in articles</li>
+                <li><strong>Wikipedia Verification:</strong> Cross-references entities with Wikipedia to check if they exist and match the context</li>
+                <li><strong>Numerical Validation:</strong> Detects unrealistic claims (e.g., impossible percentages >100%, unrealistic distances/speeds)</li>
+                <li><strong>Scam Pattern Detection:</strong> Identifies viral message patterns like "forward this", "share urgently", "before it's deleted"</li>
+                <li><strong>Confidence Override:</strong> Automatically classifies articles as FAKE when verifiable false claims are detected, even if writing style appears professional</li>
+            </ul>
+            <p>
+                <strong>Example:</strong> If an article claims "Delhi Metro opened a 600km line to Mars yesterday" with professional writing, 
+                the ML models might classify it as REAL based on style. However, the fact-checker will detect the impossible distance 
+                and non-existent infrastructure, overriding the prediction to FAKE NEWS.
+            </p>
 
             <h2>📈 Model Performance</h2>
             <p>
@@ -342,11 +362,12 @@
 
             <h2>⚠️ Important Notes</h2>
             <ul>
-                <li><strong>Educational Tool:</strong> This system assists in identifying potentially fake news, not a definitive fact-checker</li>
-                <li><strong>Verification:</strong> Always verify important information through multiple reliable sources</li>
+                <li><strong>Dual-Layer System:</strong> Combines ML pattern detection with AI fact-checking for comprehensive analysis</li>
+                <li><strong>Educational Tool:</strong> Assists in identifying potentially fake news but always verify through multiple sources</li>
+                <li><strong>Fact-Checker Coverage:</strong> Wikipedia-based verification works best for well-documented entities; may not catch very recent or obscure claims</li>
+                <li><strong>English Only:</strong> Current version supports English text only; non-English input will be rejected with helpful error messages</li>
                 <li><strong>Training Period:</strong> Models trained on 2016-2023 data (most recent professionally labeled datasets available)</li>
-                <li><strong>Temporal Limitation:</strong> Performance optimized for the training period; very recent terminology (2024-2025) may have limited exposure</li>
-                <li><strong>Data Labeling:</strong> Professionally labeled fake news requires 6-12 months for fact-checking, verification, and legal review</li>
+                <li><strong>Input Validation:</strong> System validates inputs and rejects URLs-only, very short text, and special characters-only submissions</li>
                 <li><strong>Context Matters:</strong> Source credibility, publication date, and expert analysis remain crucial for news verification</li>
             </ul>
             
@@ -363,13 +384,14 @@
             <h2>🚀 Future Enhancements</h2>
             <ul>
                 <li><strong>Deep Learning:</strong> LSTM, BERT, and Transformer models for improved accuracy</li>
-                <li><strong>Fact-Checking Integration:</strong> Real-time APIs from Alt News, BOOM Live, Snopes</li>
+                <li><strong>Enhanced Fact-Checking:</strong> Real-time APIs from Alt News, BOOM Live, Snopes for additional verification</li>
                 <li><strong>Multi-language Support:</strong> Hindi, Spanish, French, and other languages</li>
-                <li><strong>Source Analysis:</strong> Credibility scoring based on publisher reputation</li>
+                <li><strong>Source Analysis:</strong> Credibility scoring based on publisher reputation and domain analysis</li>
                 <li><strong>Real-time Monitoring:</strong> Continuous news feed analysis and alerts</li>
                 <li><strong>Browser Extension:</strong> Instant verification while browsing</li>
                 <li><strong>Temporal Updates:</strong> Automatic retraining with 2024+ data as it becomes available</li>
                 <li><strong>Mobile App:</strong> iOS and Android applications for on-the-go verification</li>
+                <li><strong>URL Content Extraction:</strong> Automatic web scraping to analyze article content from URLs</li>
             </ul>
 
             <h2>👨‍💻 Developer</h2>
@@ -377,11 +399,12 @@
                 This project was developed as a comprehensive machine learning portfolio project to demonstrate skills in:
             </p>
             <ul>
-                <li><strong>Natural Language Processing:</strong> Text preprocessing, tokenization, stemming, TF-IDF vectorization</li>
+                <li><strong>Natural Language Processing:</strong> Text preprocessing, tokenization, stemming, TF-IDF vectorization, Named Entity Recognition (NER)</li>
                 <li><strong>Machine Learning:</strong> Multiple algorithms, ensemble methods, model evaluation and optimization</li>
+                <li><strong>AI Systems:</strong> Fact-checking with spaCy NER, Wikipedia API integration, pattern detection algorithms</li>
                 <li><strong>Data Engineering:</strong> Dataset collection, cleaning, balancing, and feature engineering</li>
                 <li><strong>Web Development:</strong> Flask backend, responsive frontend, RESTful API design</li>
-                <li><strong>ML Best Practices:</strong> Train/test splitting, cross-validation, performance metrics</li>
+                <li><strong>ML Best Practices:</strong> Train/test splitting, cross-validation, performance metrics, input validation</li>
                 <li><strong>Real-World Constraints:</strong> Understanding temporal drift, data availability, and labeling challenges</li>
             </ul>
             
@@ -389,7 +412,9 @@
             <ul>
                 <li>✅ <strong>11,632 labeled articles</strong> from 3 major datasets (ISOT, COVID-19, Recent)</li>
                 <li>✅ <strong>4 ML algorithms</strong> with ensemble voting system</li>
+                <li>✅ <strong>AI Fact-Checker</strong> with Wikipedia verification and scam detection</li>
                 <li>✅ <strong>83-90% accuracy</strong> across all models</li>
+                <li>✅ <strong>Smart input validation</strong> with edge case handling</li>
                 <li>✅ <strong>Perfect data balance</strong> (50/50 real/fake split)</li>
                 <li>✅ <strong>7-year coverage</strong> (2016-2023) for temporal robustness</li>
                 <li>✅ <strong>Production-ready</strong> Flask web application with modern UI</li>
@@ -404,7 +429,7 @@
         </div>
 
         <div class="footer">
-            <p>Built with Machine Learning • NLP • Python • Flask • scikit-learn</p>
+            <p>Built with Machine Learning • NLP • AI Fact-Checking • Python • Flask • scikit-learn • spaCy</p>
             <p style="margin-top: 10px;">© 2025 Fake News Detection Project | Developed by Ujjwal Bansal</p>
         </div>
     </div>

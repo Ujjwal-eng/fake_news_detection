@@ -13,6 +13,8 @@ numpy>=1.21.0
 # Natural Language Processing
 nltk>=3.8
 textblob>=0.17.0
+spacy>=3.8.0
+wikipedia-api>=0.8.0
 
 # Visualization (Optional - for notebooks)
 matplotlib>=3.6.0
