@@ -51,6 +51,17 @@ Thumbs.db
 # data/raw/*
 # data/processed/*
 
+# Test files and analysis documents
+test_*.py
+*_test.py
+EDGE_CASE_ANALYSIS.md
+MODEL_LIMITATIONS.md
+
+# Test files and development analysis (not needed in production)
+test_*.py
+*_test.py
+EDGE_CASE_ANALYSIS.md
+
 # Learning materials and practice modules (not part of main project)
 machine_learning/
 text_preprocessing/
