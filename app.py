@@ -118,7 +118,9 @@ def load_all_models():
             global fact_checker
             if FACT_CHECKER_AVAILABLE and FactChecker is not None:
                 try:
-                    fact_checker = FactChecker()
+                    # Try to get Google API key from environment
+                    google_api_key = os.getenv('GOOGLE_FACT_CHECK_API_KEY')
+                    fact_checker = FactChecker(google_api_key=google_api_key)
                     print("✓ Fact Checker initialized successfully!")
                 except Exception as e:
                     print(f"⚠ Fact Checker initialization failed: {e}")
@@ -188,6 +190,12 @@ def validate_input(text: str, preprocessor) -> tuple:
 def predict():
     """Handle prediction requests using ensemble voting from all models"""
     
+    print("\n" + "="*80)
+    print("🔍 PREDICTION REQUEST RECEIVED")
+    print("="*80)
+    print(f"Fact checker available: {fact_checker is not None}")
+    print(f"FACT_CHECKER_AVAILABLE flag: {FACT_CHECKER_AVAILABLE}")
+    
     try:
         if not model_loaded:
             return jsonify({
@@ -199,6 +207,15 @@ def predict():
         data = request.get_json()
         text = data.get('text', '').strip()
         use_ensemble = data.get('ensemble', True)  # Default to ensemble mode
+        fact_check_mode = data.get('fact_check_mode', 'wikipedia')  # 'wikipedia' or 'google'
+        
+        print(f"\n📋 Fact-check mode: {fact_check_mode}")
+        if fact_check_mode == 'google':
+            from config import GOOGLE_FACT_CHECK_API_KEY
+            if GOOGLE_FACT_CHECK_API_KEY:
+                print(f"🔑 Google API key configured in environment")
+            else:
+                print(f"⚠️  No Google API key found in environment (will fallback to Wikipedia)")
         
         # Initialize preprocessor
         preprocessor = TextPreprocessor()
@@ -324,10 +341,48 @@ def predict():
             result['warning'] = warning_msg
         
         # Add fact-checking if available
-        if fact_checker:
+        print(f"\n📋 Checking fact-checker availability...")
+        print(f"   fact_checker variable is None? {fact_checker is None}")
+        print(f"   type(fact_checker): {type(fact_checker)}")
+        
+        if fact_checker is not None:
             try:
-                # Analyze text for factual claims
-                fact_check_result = fact_checker.analyze(text)
+                # Use API key from environment variable for Google mode
+                from config import GOOGLE_FACT_CHECK_API_KEY
+                
+                # Create a temporary fact checker with API key if Google mode selected
+                if fact_check_mode == 'google' and GOOGLE_FACT_CHECK_API_KEY:
+                    print(f"🌐 Using Google API mode with key from environment")
+                    temp_fact_checker = FactChecker(google_api_key=GOOGLE_FACT_CHECK_API_KEY)
+                    fact_check_result = temp_fact_checker.analyze(text)
+                    
+                    # INTELLIGENT FALLBACK: If Google returns no results, use Wikipedia mode
+                    google_checks = fact_check_result.get('google_fact_checks', [])
+                    if len(google_checks) == 0 and len(fact_check_result['warnings']) == 0:
+                        print(f"⚠️  Google API returned no results - falling back to Wikipedia + Pattern detection")
+                        wikipedia_checker = FactChecker()  # No API key = Wikipedia mode
+                        fallback_result = wikipedia_checker.analyze(text)
+                        
+                        # Merge results: Keep Google flag but use Wikipedia warnings
+                        fact_check_result['warnings'] = fallback_result['warnings']
+                        fact_check_result['numerical_issues'] = fallback_result['numerical_issues']
+                        fact_check_result['scam_issues'] = fallback_result['scam_issues']
+                        fact_check_result['factual_issues'] = fallback_result['factual_issues']
+                        fact_check_result['verification_results'] = fallback_result['verification_results']
+                        fact_check_result['confidence_adjustment'] = fallback_result['confidence_adjustment']
+                        fact_check_result['entities'] = fallback_result['entities']
+                        fact_check_result['fallback_used'] = True
+                        print(f"✅ Fallback complete - found {len(fallback_result['warnings'])} warnings via Wikipedia mode")
+                else:
+                    print(f"\n🔍 Running Wikipedia fact-checker on text...")
+                    fact_check_result = fact_checker.analyze(text)
+                
+                print(f"📊 Fact-check analysis complete:")
+                print(f"  - Warnings: {len(fact_check_result['warnings'])}")
+                print(f"  - Numerical issues: {len(fact_check_result['numerical_issues'])}")
+                print(f"  - Scam issues: {len(fact_check_result['scam_issues'])}")
+                print(f"  - Factual issues: {len(fact_check_result.get('factual_issues', []))}")
+                print(f"  - Confidence adjustment: {fact_check_result['confidence_adjustment']}%")
                 
                 # Get final verdict combining ML and fact-checking
                 is_fake = (final_prediction == 'FAKE NEWS')
@@ -337,24 +392,44 @@ def predict():
                     fact_check_result=fact_check_result
                 )
                 
+                print(f"🎯 Final verdict:")
+                print(f"  - Verdict: {final_verdict['verdict']}")
+                print(f"  - Confidence: {final_verdict['adjusted_confidence']}%")
+                print(f"  - Color: {final_verdict.get('color', 'N/A')}")
+                print(f"  - Warnings to display: {fact_check_result['warnings']}\n")
+                
                 # Add fact-checking data to result
                 result['fact_check'] = {
                     'entities_found': fact_check_result['entities'],
                     'numerical_issues': fact_check_result['numerical_issues'],
                     'verification_results': fact_check_result['verification_results'],
-                    'warnings': fact_check_result['warnings'],
-                    'confidence_adjustment': fact_check_result['confidence_adjustment']
+                    'warnings': fact_check_result['warnings'],  # This contains all warnings
+                    'confidence_adjustment': fact_check_result['confidence_adjustment'],
+                    'color': final_verdict.get('color', 'green'),
+                    'google_api_enabled': fact_check_result.get('google_api_enabled', False),
+                    'google_fact_checks': fact_check_result.get('google_fact_checks', []),
+                    'fallback_used': fact_check_result.get('fallback_used', False),
+                    'scam_issues': fact_check_result.get('scam_issues', []),  # Include scam issues for debugging
+                    'factual_issues': fact_check_result.get('factual_issues', [])  # Include factual issues
                 }
                 
                 # Update final prediction and confidence with fact-check verdict
                 result['final_verdict'] = final_verdict['verdict']
                 result['adjusted_confidence'] = final_verdict['adjusted_confidence']
                 result['fact_check_reason'] = final_verdict['reason']
+                result['verdict_color'] = final_verdict.get('color', 'green')
+                
+                print(f"✅ Fact-check data added to response!")
                 
             except Exception as fact_check_error:
-                print(f"Fact-checking error: {fact_check_error}")
+                print(f"❌ Fact-checking error: {fact_check_error}")
+                import traceback
+                traceback.print_exc()
                 # Continue without fact-checking if it fails
                 result['fact_check'] = None
+        else:
+            print("⚠️ Fact checker is None - not running fact-check")
+            result['fact_check'] = None
         
         return jsonify(result)
         

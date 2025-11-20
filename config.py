@@ -18,6 +18,12 @@ MIN_DF = 2
 MAX_DF = 0.8
 NGRAM_RANGE = (1, 2)
 
+# Google Fact Check API Configuration
+# Get your free API key from: https://console.cloud.google.com/apis/library/factchecktools.googleapis.com
+# Set it in your environment: export GOOGLE_FACT_CHECK_API_KEY="your_key_here" (Linux/Mac)
+#                         or: set GOOGLE_FACT_CHECK_API_KEY=your_key_here (Windows)
+GOOGLE_FACT_CHECK_API_KEY = os.getenv('GOOGLE_FACT_CHECK_API_KEY', '')
+
 # Model hyperparameters
 RANDOM_STATE = 42
 TEST_SIZE = 0.2

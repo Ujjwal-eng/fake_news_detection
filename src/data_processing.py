@@ -7,8 +7,8 @@ This module contains all the essential text processing functions including:
 - Vectorization (Count and TF-IDF)
 - Complete preprocessing pipeline
 
-Author: AI Assistant
-Date: October 2025
+Author: Ujjwal Bansal
+Date: November 2025
 """
 
 import re

@@ -11,6 +11,7 @@ An AI-powered web application that uses Natural Language Processing (NLP) and Ma
 
 - **🤖 Ensemble ML Models**: 4 models (Naive Bayes, Random Forest, Logistic Regression, SVM) with majority voting
 - **🔍 AI Fact-Checker**: Entity verification via Wikipedia, numerical claim validation, scam pattern detection
+- **🌐 Google Fact Check API** (Optional): Professional fact-checking from Snopes, PolitiFact, and other verified sources
 - **🧠 Advanced NLP**: Text preprocessing with tokenization, stemming, stopword removal, and TF-IDF vectorization
 - **🎨 Modern Web Interface**: Beautiful, responsive Flask-based UI with dark/light themes
 - **⚡ Real-time Analysis**: Instant classification with confidence scores and detailed insights
@@ -81,23 +82,53 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### Step 4: Download Required NLTK Data
+### Step 4: Download Required NLTK Data & spaCy Model
 ```bash
 python -c "import nltk; nltk.download('punkt'); nltk.download('stopwords'); nltk.download('wordnet'); nltk.download('omw-1.4')"
+python -m spacy download en_core_web_sm
 ```
 
-## 💻 Usage
+### Step 5: (Optional) Configure Google Fact Check API
+For enhanced fact-checking from professional sources like Snopes and PolitiFact:
 
-### Running the Web Application
+1. **Get a free API key** from [Google Cloud Console](https://console.cloud.google.com/)
+   - Follow the detailed setup guide: [GOOGLE_API_SETUP.md](GOOGLE_API_SETUP.md)
+   - Free tier includes **10,000 requests per day**
+
+2. **Add API key to environment**:
+   ```bash
+   # Windows PowerShell
+   $env:GOOGLE_FACT_CHECK_API_KEY="AIzaSyDoGgQ3SGqGPwZSWTW0bi9T-F0afXGZBvk"
+   
+   # Windows Command Prompt
+   set GOOGLE_FACT_CHECK_API_KEY=AIzaSyDoGgQ3SGqGPwZSWTW0bi9T-F0afXGZBvk
+   
+   # Linux/Mac
+   export GOOGLE_FACT_CHECK_API_KEY="AIzaSyDoGgQ3SGqGPwZSWTW0bi9T-F0afXGZBvk"
+   ```
+
+3. **Or add to shell profile** (permanent):
+   ```bash
+   # Linux/Mac - add to ~/.bashrc or ~/.zshrc
+   echo 'export GOOGLE_FACT_CHECK_API_KEY="your_key_here"' >> ~/.bashrc
+   source ~/.bashrc
+   
+   # Windows - use System Environment Variables (GUI)
+   # Settings → System → About → Advanced system settings → Environment Variables
+   ```
+
+**Note**: The app works perfectly without the Google API using Wikipedia + pattern matching. The Google API is an optional enhancement that provides fact-checks from professional fact-checkers.
+
+### Step 6: Run the Application
 ```bash
 python app.py
 ```
 Then open your browser and navigate to: `http://localhost:5000`
 
 ### Training Models
-To train new models with your own dataset:
+To train new models with custom dataset:
 ```bash
-# Place your dataset in data/raw/
+# Place dataset in data/raw/
 # Then run the training script
 python -m src.model
 ```
