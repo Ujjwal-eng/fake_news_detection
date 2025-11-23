@@ -249,11 +249,44 @@ Raw Text → Lowercasing → Tokenization → Stop Word Removal → Stemming →
 
 ## 📸 Screenshots
 
-### Home Page
-Clean and intuitive interface for news analysis
+<details>
+<summary><b>🌞 Light Mode</b></summary>
 
-### Results Page
-Detailed prediction with confidence scores and probabilities
+### Home Page
+![Home Page - Light Mode](screenshots/home-light.png)
+*Clean and intuitive interface for news analysis*
+
+### Analysis Results - Google Fact Check API
+Real news verification using professional fact-checkers (Snopes, PolitiFact)
+
+![Results Part 1 - Light Mode](screenshots/result-one-light.png)
+*Classification results with all 4 ML models and ensemble prediction*
+
+![Results Part 2 - Light Mode](screenshots/result-two-light.png)
+*Google Fact Check API results showing professional verdicts*
+
+</details>
+
+<details>
+<summary><b>🌙 Dark Mode</b></summary>
+
+### Home Page
+![Home Page - Dark Mode](screenshots/home-dark.png)
+*Clean and intuitive interface for news analysis*
+
+### Analysis Results - Wikipedia Fact Checker
+Fake news detection with AI fact-checker (entity verification & pattern detection)
+
+![Results Part 1 - Dark Mode](screenshots/result-one-dark.png)
+*Classification results with confidence scores and model predictions*
+
+![Results Part 2 - Dark Mode](screenshots/result-two-dark.png)
+*Wikipedia verification results and fact-checker warnings*
+
+![Results Part 3 - Dark Mode](screenshots/result-three-dark.png)
+*Detailed probability comparison and analysis metrics*
+
+</details>
 
 ## 🔮 Future Enhancements
 
