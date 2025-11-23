@@ -98,13 +98,13 @@ For enhanced fact-checking from professional sources like Snopes and PolitiFact:
 2. **Add API key to environment**:
    ```bash
    # Windows PowerShell
-   $env:GOOGLE_FACT_CHECK_API_KEY="AIzaSyDoGgQ3SGqGPwZSWTW0bi9T-F0afXGZBvk"
+   $env:GOOGLE_FACT_CHECK_API_KEY="your_google_api_key_here"
    
    # Windows Command Prompt
-   set GOOGLE_FACT_CHECK_API_KEY=AIzaSyDoGgQ3SGqGPwZSWTW0bi9T-F0afXGZBvk
+   set GOOGLE_FACT_CHECK_API_KEY=your_google_api_key_here
    
    # Linux/Mac
-   export GOOGLE_FACT_CHECK_API_KEY="AIzaSyDoGgQ3SGqGPwZSWTW0bi9T-F0afXGZBvk"
+   export GOOGLE_FACT_CHECK_API_KEY="your_google_api_key_here"
    ```
 
 3. **Or add to shell profile** (permanent):
