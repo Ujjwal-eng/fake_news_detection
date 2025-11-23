@@ -92,11 +92,8 @@ python -m spacy download en_core_web_sm
 For enhanced fact-checking from professional sources like Snopes and PolitiFact:
 
 1. **Get a free API key**:
-   - Create a new project at [Google Cloud Console](https://console.cloud.google.com/projectcreate)
-   - Enable the [Fact Check Tools API](https://console.cloud.google.com/apis/library/factchecktools.googleapis.com)
-   - Create credentials at [API Credentials](https://console.cloud.google.com/apis/credentials)
    - Follow the detailed setup guide: [GOOGLE_API_SETUP.md](GOOGLE_API_SETUP.md)
-   - Free tier includes **10,000 requests per day**
+   - Free tier includes **10,000 requests per day** at no cost
 
 2. **Add API key to environment**:
    ```bash

@@ -10,18 +10,23 @@ The Google Fact Check API provides access to fact-check claims from verified pub
 ### Step 1: Get a Google API Key
 
 1. **Create a New Project**
-   - Visit: https://console.cloud.google.com/projectcreate
+   - Go to [Google Cloud Console](https://console.cloud.google.com)
+   - Click the project dropdown at the top (next to "Google Cloud")
+   - Click "New Project"
    - Project Name: `fake-news-detector` (or any name you prefer)
-   - Click "Create"
+   - Click "Create" and wait for the project to be created
 
 2. **Enable the Fact Check Tools API**
-   - Visit: https://console.cloud.google.com/apis/library/factchecktools.googleapis.com
-   - Make sure your newly created project is selected
-   - Click "Enable"
+   - In the search bar at the top, type "Fact Check Tools API"
+   - Click on "Fact Check Tools API" from the results
+   - Make sure your newly created project is selected in the dropdown
+   - Click "Enable" button
 
 3. **Create API Credentials**
-   - Visit: https://console.cloud.google.com/apis/credentials
-   - Click "Create Credentials" → "API key"
+   - Go to "APIs & Services" from the left menu (☰)
+   - Click "Credentials"
+   - Click "+ CREATE CREDENTIALS" at the top
+   - Select "API key"
    - **Copy the API key** (you'll need this!)
    - Optional: Click "Restrict Key" to limit it to Fact Check Tools API only for better security
 
