@@ -91,7 +91,10 @@ python -m spacy download en_core_web_sm
 ### Step 5: (Optional) Configure Google Fact Check API
 For enhanced fact-checking from professional sources like Snopes and PolitiFact:
 
-1. **Get a free API key** from [Google Cloud Console](https://console.cloud.google.com/)
+1. **Get a free API key**:
+   - Create a new project at [Google Cloud Console](https://console.cloud.google.com/projectcreate)
+   - Enable the [Fact Check Tools API](https://console.cloud.google.com/apis/library/factchecktools.googleapis.com)
+   - Create credentials at [API Credentials](https://console.cloud.google.com/apis/credentials)
    - Follow the detailed setup guide: [GOOGLE_API_SETUP.md](GOOGLE_API_SETUP.md)
    - Free tier includes **10,000 requests per day**
 
@@ -272,19 +275,19 @@ Detailed prediction with confidence scores and probabilities
 ### Use Responsibly
 This system is designed as an **educational tool and ML demonstration project**. It should not be used as the sole method for verifying news authenticity.
 
-### Two-Layer Detection System
+### Three-Tier Verification System
 
-#### Layer 1: Machine Learning Models
-The models analyze **writing patterns and linguistic features**:
-- ✅ Sensational language and emotional manipulation
-- ✅ Conspiracy theory rhetoric patterns
-- ✅ Poor grammar and structure (common in low-quality fake news)
-- ✅ Clickbait-style headlines
-- ✅ Absence of proper attribution and sources
-- ✅ Vague or missing details
+#### Tier 1: Google Fact Check API (Optional)
+Professional fact-checking from verified sources:
+- ✅ **Verified Sources**: Checks against Snopes, PolitiFact, FactCheck.org, and 100+ fact-checkers
+- ✅ **ClaimReview Database**: Access to Google's ClaimReview structured data from trusted publishers
+- ✅ **Claim Matching**: Searches for similar claims fact-checked by professionals
+- ✅ **Expert Verdicts**: Returns fact-checker ratings (TRUE, FALSE, MIXTURE, UNVERIFIED)
 
-#### Layer 2: AI Fact-Checker (NEW!)
-The fact-checker performs **content verification and claim validation**:
+**How it works**: If Google API finds matching fact-checks, it displays professional verdicts with source links, providing the most authoritative verification available.
+
+#### Tier 2: AI Fact-Checker
+Content verification and claim validation:
 - ✅ **Entity Verification**: Cross-references organizations, locations, and infrastructure with Wikipedia
 - ✅ **Numerical Validation**: Detects unrealistic claims (impossible percentages, distances, speeds)
 - ✅ **Scam Pattern Detection**: Identifies viral message patterns ("forward this", "share urgently")
@@ -292,20 +295,29 @@ The fact-checker performs **content verification and claim validation**:
 
 **How it works**: If the fact-checker detects contradictions (e.g., non-existent metro lines, impossible statistics), it **overrides the ML prediction** and classifies the article as FAKE NEWS, even if the writing style appears professional.
 
+#### Tier 3: Machine Learning Models
+Pattern analysis of **writing style and linguistic features**:
+- ✅ Sensational language and emotional manipulation
+- ✅ Conspiracy theory rhetoric patterns
+- ✅ Poor grammar and structure (common in low-quality fake news)
+- ✅ Clickbait-style headlines
+- ✅ Absence of proper attribution and sources
+- ✅ Vague or missing details
+
 ### What the System CANNOT Detect
-Despite the dual-layer approach, some limitations remain:
-- ❌ Cannot verify very recent events not yet documented on Wikipedia
+Despite the three-tier approach, some limitations remain:
+- ❌ Cannot verify claims not yet fact-checked by professional organizations (for Google API tier)
+- ❌ Cannot verify very recent events not yet documented on Wikipedia (for AI fact-checker tier)
 - ❌ Cannot access paywalled sources or private databases
 - ❌ Limited to English language content
 - ❌ Cannot verify claims requiring real-time data or government databases
 
-**Example**: A fake news article about a non-existent Delhi Metro line, written in professional journalistic style with specific details, would be misclassified as REAL because it matches the writing patterns of legitimate news. The models detect patterns, not facts.
+**Example**: A fake news article about a non-existent Delhi Metro line, written in professional journalistic style with specific details, would be caught by the AI fact-checker (Tier 2) which verifies infrastructure claims against Wikipedia, or by Google API (Tier 1) if fact-checkers have already debunked it.
 
-**Solution**: For production systems, combine these ML models with:
-1. Fact-checking APIs (Alt News, BOOM Live, Snopes)
-2. Knowledge graphs (Wikipedia, Wikidata)
-3. Government database integration
-4. Source credibility analysis
+**Solution**: The three-tier system provides comprehensive verification:
+1. **Tier 1 (Google API)**: Professional fact-checker verdicts from trusted sources
+2. **Tier 2 (AI Fact-Checker)**: Wikipedia verification + pattern detection
+3. **Tier 3 (ML Models)**: Writing style and linguistic pattern analysis
 
 See [MODEL_LIMITATIONS.md](MODEL_LIMITATIONS.md) for detailed analysis.
 
