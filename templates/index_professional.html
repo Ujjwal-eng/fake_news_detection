@@ -629,7 +629,7 @@
         /* Main Content Grid */
         .main-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr 350px;
+            grid-template-columns: 1fr 1fr;
             gap: 24px;
             margin-top: 40px;
             align-items: start;
@@ -1338,7 +1338,6 @@
             border: 1px solid rgba(245, 158, 11, 0.3);
             border-radius: 12px;
             padding: 20px;
-            margin-top: 20px;
         }
 
         .warning-card h4 {
@@ -1469,54 +1468,27 @@
 
         /* Footer */
         .footer {
-            margin-top: 60px;
-            padding: 40px 0;
+            margin-top: 0;
+            padding: 24px 0 28px 0;
             border-top: 1px solid var(--glass-border);
-            text-align: center;
             background: var(--glass);
             backdrop-filter: blur(10px);
+            width: 100%;
         }
 
         .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 24px;
-            text-align: center;
+            max-width: 100%;
+            margin: 0;
+            padding: 0 40px;
         }
 
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 32px;
-            margin-top: 32px;
-            margin-bottom: 24px;
-            flex-wrap: wrap;
+        .footer a:hover {
+            color: var(--primary) !important;
+            transform: translateY(-2px);
         }
 
-        .footer-links a {
-            color: var(--gray-light);
-            text-decoration: none;
-            font-size: 14px;
-            transition: color 0.3s;
-        }
-
-        .footer-links a:hover {
-            color: var(--primary);
-        }
-
-        .footer-copyright {
-            color: var(--gray);
-            font-size: 13px;
-            margin-top: 12px;
-            text-align: center;
-        }
-
-        .footer-copyright p {
-            text-align: center;
-        }
-
-        .footer-copyright i {
-            color: var(--danger);
+        .footer h4 {
+            letter-spacing: 0.5px;
         }
     </style>
 </head>
@@ -1670,12 +1642,14 @@
                 </div>
             </div>
 
-            <!-- Results Panel -->
-            <div class="glass-card results-card">
-                <div class="card-header">
-                    <i class="fas fa-chart-line"></i>
-                    <h2>Analysis Results</h2>
-                </div>
+            <!-- Results Panel Column -->
+            <div>
+                <!-- Results Panel -->
+                <div class="glass-card results-card" style="min-height: 600px;">
+                    <div class="card-header">
+                        <i class="fas fa-chart-line"></i>
+                        <h2>Analysis Results</h2>
+                    </div>
 
                 <!-- Results Section -->
                 <div id="results" class="results">
@@ -1747,121 +1721,222 @@
                 </div>
             </div>
 
-            <!-- Sidebar -->
-            <aside class="sidebar">
-                <!-- Important Note -->
-                <div class="warning-card" style="margin-bottom: 20px;">
-                    <h4><i class="fas fa-exclamation-triangle"></i> Important Note</h4>
-                    <p>
-                        This system uses a <strong>3-tier verification approach</strong>: Google Fact Check API (professional fact-checkers) → Wikipedia verification (encyclopedic sources) → ML pattern detection (AI models). The system intelligently falls back to ensure <strong>100% fact-checking coverage</strong>.
+            <!-- How It Works Section -->
+            <div class="glass-card" style="margin-top: 24px;">
+                <div class="card-header">
+                    <i class="fas fa-lightbulb"></i>
+                    <h2>How It Works</h2>
+                </div>
+                <div style="padding: 16px;">
+                    <p style="color: var(--text); margin-bottom: 12px; font-size: 13px; line-height: 1.5;">
+                        Our system uses <strong>3 verification layers</strong>:
                     </p>
-                    <p style="margin-top: 12px; font-size: 13px; color: var(--gray-light);">
-                        <i class="fas fa-shield-alt"></i> While highly accurate, sophisticated fake news may still evade detection. Always verify critical information through multiple trusted sources.
-                    </p>
-                </div>
-
-                <div class="metrics-card">
-                    <h3><i class="fas fa-chart-bar"></i> Model Performance</h3>
-                    <div style="margin-top: 12px;">
-                        <canvas id="demoChart"></canvas>
-                    </div>
-                    <div style="margin-top: 12px; padding: 10px; background: rgba(99, 102, 241, 0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
-                        <p style="font-size: 11px; color: var(--gray-light); margin: 0; line-height: 1.4;">
-                            <strong style="color: var(--primary);">Training Dataset:</strong> 11,632 articles<br>
-                            <strong style="color: var(--success);">Best Model:</strong> Logistic Regression (90%)<br>
-                            <strong style="color: var(--warning);">Ensemble Accuracy:</strong> 87.8%
-                        </p>
-                    </div>
-                </div>
-
-                <div class="metrics-card">
-                    <h3><i class="fas fa-tachometer-alt"></i> Analysis Metrics</h3>
-                    <div class="metric-item">
-                        <span class="metric-label">
-                            Average Confidence
-                            <div class="tooltip-wrapper">
-                                <span class="tooltip-icon">?</span>
-                                <span class="tooltip-text">Average confidence level across all 4 AI models. Higher percentage means models are more certain about their prediction.</span>
-                            </div>
-                        </span>
-                        <span id="avgProb" class="metric-value">--</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-label">
-                            Models Agreement
-                            <div class="tooltip-wrapper">
-                                <span class="tooltip-icon">?</span>
-                                <span class="tooltip-text">How many models voted the same way. 4/4 = Unanimous (most reliable), 3/4 = Majority (reliable), 2/4 = Split (less reliable).</span>
-                            </div>
-                        </span>
-                        <span id="agreement" class="metric-value">--</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-label">
-                            Reliability
-                            <div class="tooltip-wrapper">
-                                <span class="tooltip-icon">?</span>
-                                <span class="tooltip-text">Overall prediction reliability. "Very High" = All models agree strongly, "High" = Strong majority, "Medium" = Majority with lower confidence, "Low" = Split decision or low confidence.</span>
-                            </div>
-                        </span>
-                        <span id="decisionType" class="metric-value">--</span>
-                    </div>
-                    <div style="margin-top: 12px; padding: 8px; background: rgba(16, 185, 129, 0.1); border-radius: 6px; text-align: center;">
-                        <p style="font-size: 11px; color: var(--success); margin: 0;">
-                            <i class="fas fa-shield-alt"></i> <strong>Multi-Layer Protection</strong><br>
-                            <span style="color: var(--gray-light); font-size: 10px;">ML Models + Fact Verification</span>
-                        </p>
+                    
+                    <div style="display: grid; gap: 10px;">
+                        <!-- ML Models -->
+                        <div style="padding: 10px; background: var(--dark-2); border-radius: 8px; border-left: 3px solid var(--primary);">
+                            <p style="font-size: 12px; margin: 0 0 3px 0;">
+                                <i class="fas fa-brain" style="color: var(--primary);"></i> 
+                                <strong>ML Pattern Detection</strong>
+                            </p>
+                            <p style="font-size: 10px; color: var(--gray-light); margin: 0; line-height: 1.3;">
+                                4 models → TF-IDF → ensemble voting → 90% accuracy
+                            </p>
+                        </div>
+                        
+                        <!-- Google API -->
+                        <div style="padding: 10px; background: var(--dark-2); border-radius: 8px; border-left: 3px solid var(--info);">
+                            <p style="font-size: 12px; margin: 0 0 3px 0;">
+                                <i class="fas fa-globe" style="color: var(--info);"></i> 
+                                <strong>Google Fact Check API</strong>
+                            </p>
+                            <p style="font-size: 10px; color: var(--gray-light); margin: 0; line-height: 1.3;">
+                                Claims → ClaimReview database → verified results
+                            </p>
+                        </div>
+                        
+                        <!-- Wikipedia -->
+                        <div style="padding: 10px; background: var(--dark-2); border-radius: 8px; border-left: 3px solid var(--success);">
+                            <p style="font-size: 12px; margin: 0 0 3px 0;">
+                                <i class="fas fa-book" style="color: var(--success);"></i> 
+                                <strong>Wikipedia Verification</strong>
+                            </p>
+                            <p style="font-size: 10px; color: var(--gray-light); margin: 0; line-height: 1.3;">
+                                spaCy NER → verify entities → flag misinformation
+                            </p>
+                        </div>
+                        
+                        <!-- Smart Fallback Info -->
+                        <div style="padding: 8px; background: rgba(99, 102, 241, 0.1); border-radius: 6px; border: 1px solid rgba(99, 102, 241, 0.2);">
+                            <p style="font-size: 10px; margin: 0; color: var(--text); line-height: 1.3;">
+                                <i class="fas fa-sync-alt" style="color: var(--primary);"></i> 
+                                <strong>Smart Fallback:</strong> Auto-switches to Wikipedia when Google has no results.
+                            </p>
+                        </div>
                     </div>
                 </div>
-
-                <div class="info-card">
-                    <h3><i class="fas fa-lightbulb"></i> How It Works</h3>
-                    <p>
-                        Our AI system combines <strong>4 ML models</strong> (Naive Bayes, Logistic Regression, Random Forest, SVM) trained on 11,632 articles with a <strong>dual-mode fact-checking system</strong>.
-                    </p>
-                    <div style="margin-top: 12px; padding-left: 10px; border-left: 3px solid var(--primary);">
-                        <p style="font-size: 13px; margin-bottom: 8px;">
-                            <i class="fas fa-brain" style="color: var(--primary);"></i> 
-                            <strong>ML Analysis:</strong> Detects fake news patterns through writing style, sensational language, and linguistic features.
-                        </p>
-                        <p style="font-size: 13px; margin-bottom: 8px;">
-                            <i class="fas fa-globe" style="color: var(--info);"></i> 
-                            <strong>Google API Mode:</strong> Queries professional fact-checkers (Snopes, PolitiFact, FactCheck.org) for verified claims. If no results found, automatically falls back to Wikipedia mode.
-                        </p>
-                        <p style="font-size: 13px; margin-bottom: 8px;">
-                            <i class="fas fa-book" style="color: var(--success);"></i> 
-                            <strong>Wikipedia Mode:</strong> Verifies entities through encyclopedic sources, detects unrealistic numerical claims, and identifies dangerous misinformation patterns.
-                        </p>
-                        <p style="font-size: 12px; margin-top: 10px; padding: 8px; background: rgba(99, 102, 241, 0.1); border-radius: 6px; color: var(--gray-light);">
-                            <i class="fas fa-info-circle"></i> <strong>Smart Fallback:</strong> When Google's database doesn't have data for a claim, the system automatically uses Wikipedia + pattern detection to ensure you always get fact-checking results.
-                        </p>
-                    </div>
-                </div>
-            </aside>
+            </div>
+            </div>
+            <!-- End of Results Panel Column -->
         </div>
+
+        <!-- Bottom Cards Row -->
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 32px;">
+            <!-- Important Note -->
+            <div class="warning-card">
+                <h4><i class="fas fa-exclamation-triangle"></i> Important Note</h4>
+                <p style="font-size: 13px; margin-bottom: 12px;">
+                    This system uses a <strong>3-tier verification approach</strong>: Google Fact Check API → Wikipedia → ML models. Intelligently falls back to ensure <strong>100% fact-checking coverage</strong>.
+                </p>
+                <div style="padding: 10px; background: rgba(245, 158, 11, 0.15); border-radius: 8px; border-left: 3px solid var(--warning);">
+                    <p style="font-size: 11px; margin: 0 0 8px 0; line-height: 1.5;">
+                        <strong style="color: var(--warning);">⚡ Key Features:</strong>
+                    </p>
+                    <p style="font-size: 11px; color: var(--gray-light); margin: 0; line-height: 1.6;">
+                        • 4 ML models with ensemble voting<br>
+                        • Professional fact-checker integration<br>
+                        • Entity verification via Wikipedia<br>
+                        • Real-time misinformation detection
+                    </p>
+                </div>
+            </div>
+
+            <div class="metrics-card">
+                <h3><i class="fas fa-chart-bar"></i> Model Performance</h3>
+                <div style="margin-top: 12px;">
+                    <canvas id="demoChart"></canvas>
+                </div>
+                <div style="margin-top: 12px; padding: 10px; background: rgba(99, 102, 241, 0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
+                    <p style="font-size: 11px; color: var(--gray-light); margin: 0; line-height: 1.4;">
+                        <strong style="color: var(--primary);">Training:</strong> 11,632 articles<br>
+                        <strong style="color: var(--success);">Best:</strong> Logistic Regression (90%)
+                    </p>
+                </div>
+            </div>
+
+            <div class="metrics-card">
+                <h3><i class="fas fa-tachometer-alt"></i> Analysis Metrics</h3>
+                <div class="metric-item">
+                    <span class="metric-label">
+                        Average Confidence
+                        <div class="tooltip-wrapper">
+                            <span class="tooltip-icon">?</span>
+                            <span class="tooltip-text">Average confidence level across all 4 AI models.</span>
+                        </div>
+                    </span>
+                    <span id="avgProb" class="metric-value">--</span>
+                </div>
+                <div class="metric-item">
+                    <span class="metric-label">
+                        Models Agreement
+                        <div class="tooltip-wrapper">
+                            <span class="tooltip-icon">?</span>
+                            <span class="tooltip-text">How many models voted the same way.</span>
+                        </div>
+                    </span>
+                    <span id="agreement" class="metric-value">--</span>
+                </div>
+                <div class="metric-item">
+                    <span class="metric-label">
+                        Reliability
+                        <div class="tooltip-wrapper">
+                            <span class="tooltip-icon">?</span>
+                            <span class="tooltip-text">Overall prediction reliability.</span>
+                        </div>
+                    </span>
+                    <span id="decisionType" class="metric-value">--</span>
+                </div>
+                <div style="margin-top: 12px; padding: 10px; background: rgba(16, 185, 129, 0.1); border-radius: 6px; text-align: center;">
+                    <p style="font-size: 11px; color: var(--success); margin: 0 0 8px 0;">
+                        <i class="fas fa-shield-alt"></i> <strong>Multi-Layer Protection</strong>
+                    </p>
+                    <p style="font-size: 10px; color: var(--gray-light); margin: 0; line-height: 1.5;">
+                        ML Models + Fact Verification<br>
+                        <span style="opacity: 0.8;">Combined accuracy for reliable detection</span>
+                    </p>
+                </div>
+                <div style="margin-top: 8px; padding: 8px; background: rgba(99, 102, 241, 0.08); border-radius: 6px;">
+                    <p style="font-size: 10px; color: var(--gray-light); margin: 0; text-align: center; line-height: 1.4;">
+                        <i class="fas fa-info-circle" style="color: var(--primary);"></i> 
+                        Results update in real-time after analysis
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!-- End of Bottom Cards Row -->
+    </div>
+    <!-- End of Container -->
 
         <!-- Footer -->
         <footer class="footer">
             <div class="footer-content">
-                <div class="footer-links">
-                    <span style="color: var(--gray-light); font-size: 14px;">
-                        <i class="fas fa-envelope"></i> Contact: bansalujjwal25@gmail.com
-                    </span>
-                    <a href="https://www.linkedin.com/in/ujjwal-bansal-581a1a298/" target="_blank">
-                        <i class="fab fa-linkedin"></i> LinkedIn
-                    </a>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; text-align: left; margin-bottom: 20px;">
+                    <!-- About Section -->
+                    <div>
+                        <h4 style="color: var(--primary); font-size: 14px; margin-bottom: 16px; font-weight: 600;">ABOUT</h4>
+                        <ul style="list-style: none; padding: 0; margin: 0;">
+                            <li style="margin-bottom: 10px;"><a href="#" style="color: var(--gray-light); text-decoration: none; font-size: 13px; transition: color 0.3s;">About Project</a></li>
+                            <li style="margin-bottom: 10px;"><a href="#" style="color: var(--gray-light); text-decoration: none; font-size: 13px; transition: color 0.3s;">How It Works</a></li>
+                            <li style="margin-bottom: 10px;"><a href="#" style="color: var(--gray-light); text-decoration: none; font-size: 13px; transition: color 0.3s;">Technology Stack</a></li>
+                            <li style="margin-bottom: 10px;"><a href="#" style="color: var(--gray-light); text-decoration: none; font-size: 13px; transition: color 0.3s;">Model Performance</a></li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Resources Section -->
+                    <div>
+                        <h4 style="color: var(--primary); font-size: 14px; margin-bottom: 16px; font-weight: 600;">RESOURCES</h4>
+                        <ul style="list-style: none; padding: 0; margin: 0;">
+                            <li style="margin-bottom: 10px;"><a href="#" style="color: var(--gray-light); text-decoration: none; font-size: 13px; transition: color 0.3s;">Documentation</a></li>
+                            <li style="margin-bottom: 10px;"><a href="#" style="color: var(--gray-light); text-decoration: none; font-size: 13px; transition: color 0.3s;">API Reference</a></li>
+                            <li style="margin-bottom: 10px;"><a href="#" style="color: var(--gray-light); text-decoration: none; font-size: 13px; transition: color 0.3s;">Dataset Info</a></li>
+                            <li style="margin-bottom: 10px;"><a href="#" style="color: var(--gray-light); text-decoration: none; font-size: 13px; transition: color 0.3s;">Research Papers</a></li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Help Section -->
+                    <div>
+                        <h4 style="color: var(--primary); font-size: 14px; margin-bottom: 16px; font-weight: 600;">HELP</h4>
+                        <ul style="list-style: none; padding: 0; margin: 0;">
+                            <li style="margin-bottom: 10px;"><a href="#" style="color: var(--gray-light); text-decoration: none; font-size: 13px; transition: color 0.3s;">FAQ</a></li>
+                            <li style="margin-bottom: 10px;"><a href="#" style="color: var(--gray-light); text-decoration: none; font-size: 13px; transition: color 0.3s;">Usage Guidelines</a></li>
+                            <li style="margin-bottom: 10px;"><a href="#" style="color: var(--gray-light); text-decoration: none; font-size: 13px; transition: color 0.3s;">Privacy Policy</a></li>
+                            <li style="margin-bottom: 10px;"><a href="#" style="color: var(--gray-light); text-decoration: none; font-size: 13px; transition: color 0.3s;">Terms of Use</a></li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Contact Section -->
+                    <div>
+                        <h4 style="color: var(--primary); font-size: 14px; margin-bottom: 16px; font-weight: 600;">CONTACT</h4>
+                        <p style="color: var(--gray-light); font-size: 13px; margin-bottom: 12px; line-height: 1.6;">
+                            Educational AI Project<br>
+                            Machine Learning & NLP<br>
+                            Fake News Detection System
+                        </p>
+                        <div style="display: flex; gap: 12px; margin-top: 16px;">
+                            <a href="mailto:bansalujjwal25@gmail.com" style="color: var(--gray-light); text-decoration: none; font-size: 18px; transition: all 0.3s; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(255, 255, 255, 0.05);">
+                                <i class="fas fa-envelope"></i>
+                            </a>
+                            <a href="https://www.linkedin.com/in/ujjwal-bansal-581a1a298/" target="_blank" style="color: var(--gray-light); text-decoration: none; font-size: 18px; transition: all 0.3s; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(255, 255, 255, 0.05);">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                            <a href="https://github.com" target="_blank" style="color: var(--gray-light); text-decoration: none; font-size: 18px; transition: all 0.3s; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(255, 255, 255, 0.05);">
+                                <i class="fab fa-github"></i>
+                            </a>
+                        </div>
+                    </div>
                 </div>
-                <div class="footer-copyright">
-                    <p>
-                        © 2025 Fake News Detector. Built with <i class="fas fa-heart"></i> using Machine Learning & AI
+                
+                <!-- Bottom Bar -->
+                <div style="border-top: 1px solid var(--glass-border); padding-top: 16px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+                    <p style="margin: 0; font-size: 13px; color: var(--gray-light);">
+                        © 2025 Fake News Detector. All Rights Reserved.
                     </p>
-                    <p style="margin-top: 8px; font-size: 12px;">
-                        <i class="fas fa-info-circle"></i> Educational Project | Not for Commercial Use
+                    <p style="margin: 0; font-size: 12px; color: var(--gray);">
+                        Built with <i class="fas fa-code" style="color: var(--primary);"></i> Machine Learning & AI | Educational Use Only
                     </p>
                 </div>
             </div>
         </footer>
-    </div>
 
     <!-- Sample News Data (Jinja2 Template) -->
     <script type="application/json" id="sampleNewsData">
