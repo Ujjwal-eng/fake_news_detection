@@ -257,6 +257,11 @@ Raw Text → Lowercasing → Tokenization → Stop Word Removal → Stemming →
 
 ## 📸 Screenshots
 
+<details>
+<summary><b>🖼️ Click to View Screenshots (7 images)</b></summary>
+
+<br>
+
 ### Home Page - Light Theme
 ![Home Page Light](screenshots/home-light.png)
 *Clean and intuitive interface for news analysis*
@@ -284,6 +289,8 @@ Raw Text → Lowercasing → Tokenization → Stop Word Removal → Stemming →
 ### Results Page - Example 3 (Dark Theme)
 ![Result Page 3 Dark](screenshots/result-three-dark.png)
 *Analysis results with fact-checker warnings and insights*
+
+</details>
 
 ## 🔮 Future Enhancements
 
