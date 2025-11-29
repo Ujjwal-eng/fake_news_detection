@@ -257,11 +257,25 @@ Raw Text → Lowercasing → Tokenization → Stop Word Removal → Stemming →
 
 ## 📸 Screenshots
 
-### Home Page
-Clean and intuitive interface for news analysis
+### Home Page - Light Theme
+![Home Page Light](screenshots/home-light.png)
+*Clean and intuitive interface for news analysis*
 
-### Results Page
-Detailed prediction with confidence scores and probabilities
+### Home Page - Dark Theme
+![Home Page Dark](screenshots/home-dark.png)
+*Modern dark theme for comfortable viewing*
+
+### Results Page - Fake News Detection
+![Result Page 1](screenshots/result-one-light.png)
+*Detailed prediction with confidence scores and probability distributions*
+
+### Results Page - Real News Detection
+![Result Page 2](screenshots/result-two-light.png)
+*Ensemble model predictions with individual model breakdowns*
+
+### Results Page - Dark Theme
+![Result Page Dark](screenshots/result-three-dark.png)
+*Analysis results with fact-checker warnings and insights*
 
 ## 🔮 Future Enhancements
 
