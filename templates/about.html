@@ -256,11 +256,7 @@
                     <p>4 algorithms (Naive Bayes, Random Forest, Logistic Regression, SVM) with majority voting</p>
                 </div>
                 <div class="feature-card">
-                    <h4>🌐 Google Fact Check API</h4>
-                    <p>Professional fact-checkers (Snopes, PolitiFact, FactCheck.org) for verified claims</p>
-                </div>
-                <div class="feature-card">
-                    <h4>📚 Wikipedia Verification</h4>
+                    <h4>� AI Fact-Checker</h4>
                     <p>Entity verification via Wikipedia, numerical validation, and scam pattern detection</p>
                 </div>
                 <div class="feature-card">
@@ -275,6 +271,10 @@
                     <h4>🎨 Modern Interface</h4>
                     <p>Clean, responsive web interface with dark/light themes and detailed analytics</p>
                 </div>
+                <div class="feature-card">
+                    <h4>�️ Smart Validation</h4>
+                    <p>Handles edge cases: URLs, non-English text, and invalid inputs with helpful error messages</p>
+                </div>
             </div>
 
             <h2>🛠️ Technology Stack</h2>
@@ -284,7 +284,6 @@
                 <span class="tech-badge">scikit-learn</span>
                 <span class="tech-badge">NLTK</span>
                 <span class="tech-badge">spaCy</span>
-                <span class="tech-badge">Google Fact Check API</span>
                 <span class="tech-badge">Wikipedia API</span>
                 <span class="tech-badge">Pandas</span>
                 <span class="tech-badge">NumPy</span>
@@ -315,35 +314,17 @@
                 <li>Probability estimation for confidence scoring</li>
             </ul>
 
-            <h3>4. AI Fact-Checker with 3-Tier Verification (NEW!)</h3>
+            <h3>4. AI Fact-Checker (NEW!)</h3>
             <p>
-                Our advanced fact-checking system uses a <strong>3-tier verification approach</strong> with intelligent fallback 
-                to ensure 100% fact-checking coverage for every article.
+                Our advanced fact-checking layer adds a second line of defense by verifying content accuracy, 
+                not just writing patterns. This helps catch sophisticated fake news that mimics professional journalism.
             </p>
-            
-            <h4>🌐 Tier 1: Google Fact Check API (Optional)</h4>
             <ul>
-                <li><strong>Professional Fact-Checkers:</strong> Queries ClaimReview database with 1000+ fact-checking organizations</li>
-                <li><strong>Trusted Sources:</strong> Snopes, PolitiFact, FactCheck.org, and other verified fact-checkers</li>
-                <li><strong>Claim Matching:</strong> Extracts key claims and matches with previously verified fact-checks</li>
-                <li><strong>High Authority:</strong> Overrides ML predictions with 95% confidence when conflicts detected</li>
-                <li><strong>Daily Quota:</strong> 10,000 free requests per day (resets at midnight)</li>
-            </ul>
-            
-            <h4>📚 Tier 2: Wikipedia Verification (Default)</h4>
-            <ul>
-                <li><strong>Entity Extraction:</strong> Uses spaCy NLP to identify organizations, locations, dates, and infrastructure</li>
-                <li><strong>Wikipedia Cross-Reference:</strong> Verifies entities exist and match the context</li>
-                <li><strong>Numerical Validation:</strong> Detects unrealistic claims (impossible percentages, distances, speeds)</li>
-                <li><strong>Scam Pattern Detection:</strong> Identifies viral message patterns like "forward this", "share urgently"</li>
-                <li><strong>Smart Fallback:</strong> Automatically used when Google API has no results</li>
-            </ul>
-            
-            <h4>🤖 Tier 3: ML Pattern Detection</h4>
-            <ul>
-                <li><strong>Ensemble Voting:</strong> 4 ML models analyze writing style and linguistic patterns</li>
-                <li><strong>90% Accuracy:</strong> TF-IDF vectorization with ensemble prediction</li>
-                <li><strong>Always Active:</strong> Provides baseline prediction for every article</li>
+                <li><strong>Entity Extraction:</strong> Uses spaCy NLP to identify organizations, locations, dates, and infrastructure mentioned in articles</li>
+                <li><strong>Wikipedia Verification:</strong> Cross-references entities with Wikipedia to check if they exist and match the context</li>
+                <li><strong>Numerical Validation:</strong> Detects unrealistic claims (e.g., impossible percentages >100%, unrealistic distances/speeds)</li>
+                <li><strong>Scam Pattern Detection:</strong> Identifies viral message patterns like "forward this", "share urgently", "before it's deleted"</li>
+                <li><strong>Confidence Override:</strong> Automatically classifies articles as FAKE when verifiable false claims are detected, even if writing style appears professional</li>
             </ul>
             <p>
                 <strong>Example:</strong> If an article claims "Delhi Metro opened a 600km line to Mars yesterday" with professional writing, 
@@ -448,8 +429,8 @@
         </div>
 
         <div class="footer">
-            <p>Built with Machine Learning • NLP • AI Fact-Checking • Google Fact Check API • Wikipedia API • Python • Flask</p>
-            <p style="margin-top: 10px;">© 2025 Fake News Detection Project | Educational Use Only</p>
+            <p>Built with Machine Learning • NLP • AI Fact-Checking • Python • Flask • scikit-learn • spaCy</p>
+            <p style="margin-top: 10px;">© 2025 Fake News Detection Project | Developed by Ujjwal Bansal</p>
         </div>
     </div>
 </body>

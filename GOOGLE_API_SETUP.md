@@ -9,26 +9,24 @@ The Google Fact Check API provides access to fact-check claims from verified pub
 
 ### Step 1: Get a Google API Key
 
-1. **Create a New Project**
-   - Go to Google Cloud Console at: `console.cloud.google.com`
-   - Click the project dropdown at the top (next to "Google Cloud")
-   - Click "New Project"
-   - Project Name: `fake-news-detector` (or any name you prefer)
-   - Click "Create" and wait for the project to be created
+1. **Go to Google Cloud Console**
+   - Visit: https://console.cloud.google.com/
 
-2. **Enable the Fact Check Tools API**
-   - In the search bar at the top, type "Fact Check Tools API"
-   - Click on "Fact Check Tools API" from the results
-   - Make sure your newly created project is selected in the dropdown
-   - Click "Enable" button
+2. **Create a New Project** (if you don't have one)
+   - Click "Select a project" → "New Project"
+   - Name: `fake-news-detector` (or any name)
+   - Click "Create"
 
-3. **Create API Credentials**
-   - Go to "APIs & Services" from the left menu (☰)
-   - Click "Credentials"
-   - Click "+ CREATE CREDENTIALS" at the top
-   - Select "API key"
+3. **Enable the Fact Check Tools API**
+   - In the search bar, type "Fact Check Tools API"
+   - Click on "Fact Check Tools API"
+   - Click "Enable"
+
+4. **Create API Credentials**
+   - Go to "APIs & Services" → "Credentials"
+   - Click "Create Credentials" → "API key"
    - **Copy the API key** (you'll need this!)
-   - Optional: Click "Restrict Key" to limit it to Fact Check Tools API only for better security
+   - Optional: Click "Restrict Key" to limit it to Fact Check Tools API only
 
 ### Step 2: Set the API Key as Environment Variable
 
@@ -187,7 +185,7 @@ If you encounter issues:
 ## 📚 Additional Resources
 
 - [Google Fact Check Tools API Documentation](https://developers.google.com/fact-check/tools/api)
-- Google Cloud Console: `console.cloud.google.com`
+- [Google Cloud Console](https://console.cloud.google.com/)
 - [List of Verified Fact-Check Publishers](https://toolbox.google.com/factcheck/explorer)
 
 ---

@@ -1,11 +1,6 @@
 FAKE NEWS DETECTION - MODEL TRAINING RESULTS
 ================================================================================
 
-Training Data: 11632 articles
-Training Set: 9305 samples
-Test Set: 2327 samples
-Features: 5000
-
               Model  Accuracy  Precision   Recall  F1-Score
         Naive Bayes  0.832402   0.837878 0.832402  0.831726
       Random Forest  0.842286   0.842360 0.842286  0.842278
