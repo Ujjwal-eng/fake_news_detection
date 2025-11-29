@@ -265,16 +265,24 @@ Raw Text → Lowercasing → Tokenization → Stop Word Removal → Stemming →
 ![Home Page Dark](screenshots/home-dark.png)
 *Modern dark theme for comfortable viewing*
 
-### Results Page - Fake News Detection
-![Result Page 1](screenshots/result-one-light.png)
+### Results Page - Example 1 (Light Theme)
+![Result Page 1 Light](screenshots/result-one-light.png)
 *Detailed prediction with confidence scores and probability distributions*
 
-### Results Page - Real News Detection
-![Result Page 2](screenshots/result-two-light.png)
+### Results Page - Example 2 (Light Theme)
+![Result Page 2 Light](screenshots/result-two-light.png)
 *Ensemble model predictions with individual model breakdowns*
 
-### Results Page - Dark Theme
-![Result Page Dark](screenshots/result-three-dark.png)
+### Results Page - Example 1 (Dark Theme)
+![Result Page 1 Dark](screenshots/result-one-dark.png)
+*Fake news detection with ensemble voting in dark mode*
+
+### Results Page - Example 2 (Dark Theme)
+![Result Page 2 Dark](screenshots/result-two-dark.png)
+*Real news verification with confidence analysis in dark mode*
+
+### Results Page - Example 3 (Dark Theme)
+![Result Page 3 Dark](screenshots/result-three-dark.png)
 *Analysis results with fact-checker warnings and insights*
 
 ## 🔮 Future Enhancements
