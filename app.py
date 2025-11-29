@@ -118,10 +118,13 @@ def load_all_models():
             global fact_checker
             if FACT_CHECKER_AVAILABLE and FactChecker is not None:
                 try:
-                    # Try to get Google API key from environment
-                    google_api_key = os.getenv('GOOGLE_FACT_CHECK_API_KEY')
+                    # Get Google API key from config.py (permanent solution)
+                    google_api_key = config.GOOGLE_FACT_CHECK_API_KEY
                     fact_checker = FactChecker(google_api_key=google_api_key)
-                    print("✓ Fact Checker initialized successfully!")
+                    if google_api_key:
+                        print("✓ Fact Checker initialized with Google API!")
+                    else:
+                        print("✓ Fact Checker initialized (Wikipedia mode)")
                 except Exception as e:
                     print(f"⚠ Fact Checker initialization failed: {e}")
                     fact_checker = None

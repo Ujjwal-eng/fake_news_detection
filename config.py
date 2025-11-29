@@ -1,6 +1,10 @@
 # Configuration settings for Fake News Detection App
 
 import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file (secure API key storage)
+load_dotenv()
 
 # Data paths
 DATA_DIR = "data"
@@ -20,8 +24,11 @@ NGRAM_RANGE = (1, 2)
 
 # Google Fact Check API Configuration
 # Get your free API key from: https://console.cloud.google.com/apis/library/factchecktools.googleapis.com
-# Set it in your environment: export GOOGLE_FACT_CHECK_API_KEY="your_key_here" (Linux/Mac)
-#                         or: set GOOGLE_FACT_CHECK_API_KEY=your_key_here (Windows)
+# 
+# SECURITY: Never commit your API key to GitHub!
+# Set your API key as an environment variable:
+#   Windows PowerShell: $env:GOOGLE_FACT_CHECK_API_KEY="your_key_here"
+#   Linux/Mac: export GOOGLE_FACT_CHECK_API_KEY="your_key_here"
 GOOGLE_FACT_CHECK_API_KEY = os.getenv('GOOGLE_FACT_CHECK_API_KEY', '')
 
 # Model hyperparameters
