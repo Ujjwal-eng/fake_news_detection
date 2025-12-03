@@ -2255,10 +2255,11 @@
             if (data.fact_check) {
                 console.log('FACT CHECKER DATA FOUND!');
                 console.log('Warnings:', data.fact_check.warnings);
+                console.log('Selected mode:', data.fact_check.selected_mode);
                 console.log('Google API enabled:', data.fact_check.google_api_enabled);
                 
-                // Show mode indicator badge
-                if (data.fact_check.google_api_enabled) {
+                // Show mode indicator badge based on user-selected mode
+                if (data.fact_check.selected_mode === 'google') {
                     modeIndicator.textContent = '🌐 Google API';
                     modeIndicator.style.background = 'rgba(16, 185, 129, 0.2)';
                     modeIndicator.style.color = 'var(--success)';

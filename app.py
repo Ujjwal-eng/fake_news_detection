@@ -413,7 +413,8 @@ def predict():
                     'google_fact_checks': fact_check_result.get('google_fact_checks', []),
                     'fallback_used': fact_check_result.get('fallback_used', False),
                     'scam_issues': fact_check_result.get('scam_issues', []),  # Include scam issues for debugging
-                    'factual_issues': fact_check_result.get('factual_issues', [])  # Include factual issues
+                    'factual_issues': fact_check_result.get('factual_issues', []),  # Include factual issues
+                    'selected_mode': fact_check_mode  # Add the user-selected mode
                 }
                 
                 # Update final prediction and confidence with fact-check verdict
